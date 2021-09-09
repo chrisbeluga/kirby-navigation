@@ -71,6 +71,10 @@
 		.k-form-actions {
 			display: flex;
 			align-items: center;
+
+			button {
+				margin-left: 20px;
+			}
 		}
     }
 

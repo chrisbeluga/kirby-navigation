@@ -102,21 +102,90 @@
 			No menu items yet
 		</k-empty>
 		<modalDefault
-			v-if="modal_default"
-			v-bind:navigation="navigation"
-			v-bind:modal="modal_default"
-			v-bind:endpoints="endpoints"
+			v-if="modal.status"
+			v-bind:modal="modal.status"
 			v-on:modal_close="modal_close"
-			v-on:modal_submit="modal_close">
+			v-on:modal_submit="modal_submit">
+			<template
+				v-slot:modal_header>
+				<header
+					class="k-pages-dialog-navbar">
+					<template
+						v-if="modal.type === 'default'">
+						<k-button
+							icon="angle-left"
+							v-on:click="modal_fetch(computed_breadcrumbs)"
+							v-if="query.breadcrumbs.length > 0">
+				            Back
+				        </k-button>
+						<k-headline>
+							Add Pages
+						</k-headline>
+					</template>
+					<template
+						v-else>
+						<k-headline>
+							Add Custom Link
+						</k-headline>
+					</template>
+				</header>
+			</template>
+			<template
+				v-slot:modal_body>
+				<template
+					v-if="modal.type === 'default'">
+					<k-list>
+						<listModal
+							v-for="(item, index) in query.content"
+							v-bind:key="item.uuid"
+							v-bind:item="item">
+							<template
+								v-slot:text>
+								<span
+									class="k-menu-text">
+									{{ item.text }}
+								</span>
+							</template>
+							<template
+								v-slot:fetch>
+								<k-button
+									icon="angle-right"
+									v-if="item.count > 0"
+									v-on:click="modal_fetch(item.id)">
+								</k-button>
+							</template>
+							<template
+								v-slot:add>
+								<k-button
+									icon="add"
+									v-on:click="modal_add(item)">
+								</k-button>
+							</template>
+						</listModal>
+					<k-list>
+				</template>
+				<template
+					v-else>
+					<k-grid>
+						<k-column
+							width="2/2">
+							<k-text-field
+								label="Link Text"
+								v-model="item.text">
+							</k-text-field>
+							<k-text-field
+								label="Link Url"
+								v-model="item.url">
+							</k-text-field>
+							<k-toggle-field
+								label="Popup"
+								v-model="item.popup">
+							</k-toggle-field>
+						</k-column>
+					</k-grid>
+				</template>
+			</template>
 		</modalDefault>
-		<modalCustom
-			v-if="modal_custom"
-			v-bind:navigation="navigation"
-			v-bind:modal="modal_custom"
-			v-bind:endpoints="endpoints"
-			v-on:modal_close="modal_close"
-			v-on:modal_submit="modal_close">
-		</modalCustom>
 		<template
 			v-slot:help>
 			<k-grid>
@@ -149,8 +218,8 @@
 	import VueNestable from 'vue-nestable'
 
 	// Import Components
+	import listModal from './components/lists/modal.vue'
 	import listDefault from './components/lists/default.vue'
-	import modalCustom from './components/modal/custom.vue'
 	import modalDefault from './components/modal/default.vue'
 
     export default {
@@ -164,15 +233,16 @@
 			endpoints: Object,
         },
         components: {
+			listModal,
 			listDefault,
 			modalDefault,
-			modalCustom,
         },
 		data() {
 			return {
 				navigation: [],
-				modal_custom: false,
-				modal_default: false,
+				modal: { type: '', status: false },
+				query: { content: [], breadcrumbs: [] },
+				item: { url: '', text: '', popup: false }
 			}
 		},
         watch: {
@@ -184,11 +254,27 @@
             }
         },
         methods: {
-			modal_open(data) {
-				this.['modal_' + data] = true
+			modal_close() {
+				this.modal = { type: '', status: false }
 			},
-			modal_close(data) {
-				this.['modal_' + data] = false
+			modal_open(data) {
+				this.modal = { type: data, status: true }
+			},
+			modal_submit() {
+				if(this.modal.type === 'custom') this.modal_add(this.item)
+				this.modal = { type: '', status: false }
+			},
+			modal_add(data) {
+				this.navigation.push(JSON.parse(JSON.stringify(Object.assign(data, { uuid: Math.random().toString(36).substring(2, 15) }))))
+			},
+			modal_fetch(data) {
+				this.$api.get(this.endpoints.field + '/listings/' + data)
+	            .then((response) => {
+					this.query = response
+	            })
+	            .catch(function (error) {
+	                console.log(error);
+	            })
 			}
         },
 		computed: {
@@ -198,12 +284,16 @@
 			computed_levels() {
 				return this.levels ? this.levels : 10
 			},
+			computed_breadcrumbs() {
+				return this.query.breadcrumbs.length >= 2 ? this.query.breadcrumbs[this.query.breadcrumbs.length-2].id : 'site'
+			}
 		},
 		beforeCreate() {
 			window.panel.app.$root.constructor.use(VueNestable)
 		},
 		mounted() {
 			this.navigation = this.value
+			this.modal_fetch('site')
 		}
     }
 
