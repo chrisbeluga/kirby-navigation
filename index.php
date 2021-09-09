@@ -1,0 +1,13 @@
+<?php
+
+	use Kirby\Cms\App as Kirby;
+
+    Kirby::plugin('beluga/navigation', [
+        'fields' => [
+            'navigation' => [
+				'api' => require_once __DIR__ . '/config/api.php',
+				'props' => require_once __DIR__ . '/config/props.php',
+            ],
+        ],
+		'fieldMethods' => require_once __DIR__ . '/config/field-methods.php',
+    ]);
