@@ -1,4 +1,4 @@
-# Kirby Navigation Field (Still in Development)
+# Kirby Navigation Field
 A Navigation field for Kirby CMS [Kirby CMS](https://getkirby.com),
 
 ## Preview
