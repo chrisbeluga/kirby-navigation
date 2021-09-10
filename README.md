@@ -23,7 +23,7 @@ Included is a handy snippet to output your menu up to any level:
 ```
   <?php
 	snippet('navigation', [
-		'children' => $site->navigation_main()
+		'children' => $site->navigation_field()
 	]);
   ?>
 ```
