@@ -55,7 +55,8 @@
 				<listDefault
 					v-bind:item="item"
 					v-bind:navigation="navigation"
-					v-on:list_remove="list_remove">
+					v-on:action_add="action_add"
+					v-on:action_remove="action_remove">
 					<template
 						v-slot:handle
 						v-bind:item="item">
@@ -115,7 +116,7 @@
 						v-if="modal.type === 'default'">
 						<k-button
 							icon="angle-left"
-							v-on:click="modal_fetch(computed_breadcrumbs)"
+							v-on:click="action_fetch(computed_breadcrumbs)"
 							v-if="query.breadcrumbs.length > 0">
 				            {{ $t('modal.link.breadcrumb') }}
 				        </k-button>
@@ -152,14 +153,14 @@
 								<k-button
 									icon="angle-right"
 									v-if="item.count > 0"
-									v-on:click="modal_fetch(item.id)">
+									v-on:click="action_fetch(item.id)">
 								</k-button>
 							</template>
 							<template
 								v-slot:add>
 								<k-button
 									icon="add"
-									v-on:click="modal_add(item)">
+									v-on:click="action_add(item)">
 								</k-button>
 							</template>
 						</listModal>
@@ -262,13 +263,10 @@
 				this.modal = { type: data, status: true }
 			},
 			modal_submit() {
-				if(this.modal.type === 'custom') this.modal_add(this.item)
+				if(this.modal.type === 'custom') this.action_add(this.item)
 				this.modal = { type: '', status: false }
 			},
-			modal_add(data) {
-				this.navigation.push(JSON.parse(JSON.stringify(Object.assign(data, { uuid: Math.random().toString(36).substring(2, 15) }))))
-			},
-			modal_fetch(data) {
+			action_fetch(data) {
 				this.$api.get(this.endpoints.field + '/listings/' + data)
 	            .then((response) => {
 					this.query = response
@@ -277,16 +275,26 @@
 	                console.log(error)
 	            })
 			},
-			list_remove(data) {
+			action_remove(data) {
 				return this.navigation = data.haystack.filter(item => item.uuid !== data.needle).map(item => {
 					if(item.children && item.children.length) {
-						item.children = this.list_remove({
+						item.children = this.action_remove({
 							haystack: item.children,
 							needle: data.needle
 						})
 					}
 			        return item
 			    })
+			},
+			action_add(data) {
+				this.navigation.push({
+					children: [],
+					id: data.id,
+					text: data.text,
+					uid: data.uid,
+					url: data.url,
+					uuid: Math.random().toString(36).substring(2, 15)
+				})
 			}
         },
 		computed: {
@@ -305,7 +313,7 @@
 		},
 		mounted() {
 			this.navigation = this.value
-			this.modal_fetch('site')
+			this.action_fetch('site')
 		}
     }
 

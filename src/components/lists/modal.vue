@@ -26,20 +26,7 @@
     export default {
         props: {
 			item: Object,
-        },
-        methods: {
-			item_action(data) {
-				if(data.type === 'edit') {
-					this.active = !this.active
-				}
-				if(data.type === 'remove') {
-					this.$emit('nav_remove', data)
-				}
-				if(data.type === 'duplicate') {
-					this.field_duplicate(data)
-				}
-			}
-        },
+        }
     }
 
 </script>

@@ -17,17 +17,17 @@
 					{
 						icon: 'add',
 						text: active ? 'Close Item' : 'Edit Item',
-						click: { type: 'edit', id: item.uuid }
+						click: { type: 'edit' }
+					},
+					{
+						icon: 'copy',
+						text: 'Duplicate Item',
+						click: { type: 'duplicate', item: item }
 					},
 					{
 						icon: 'trash',
 						text: 'Remove Item',
 						click: { type: 'remove', needle: item.uuid, haystack: navigation}
-					},
-					{
-						icon: 'copy',
-						text: 'Duplicate Item',
-						click: { type: 'duplicate', id: item.uuid }
 					}
 				]">
 			</k-list-item>
@@ -91,7 +91,10 @@
 					this.active = !this.active
 				}
 				if(data.type === 'remove') {
-					this.$emit('list_remove', data)
+					this.$emit('action_remove', data)
+				}
+				if(data.type === 'duplicate') {
+					this.$emit('action_add', data.item)
 				}
 			}
         }
