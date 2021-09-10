@@ -16,20 +16,18 @@
 				v-bind:options="[
 					{
 						icon: 'add',
-						text: active ? 'Close Field' : 'Edit Field',
-						click: {
-							type: 'edit',
-							id: item.uuid
-						}
+						text: active ? 'Close Item' : 'Edit Item',
+						click: { type: 'edit', id: item.uuid }
 					},
 					{
 						icon: 'trash',
-						text: 'Remove Field',
-						click: {
-							type: 'remove',
-							needle: item.uuid,
-							haystack: navigation
-						}
+						text: 'Remove Item',
+						click: { type: 'remove', needle: item.uuid, haystack: navigation}
+					},
+					{
+						icon: 'copy',
+						text: 'Duplicate Item',
+						click: { type: 'duplicate', id: item.uuid }
 					}
 				]">
 			</k-list-item>
@@ -60,13 +58,13 @@
 					<k-button
 						icon="remove"
 						v-on:click="item_action({ type: 'edit' })">
-						Close
+						Close Item
 					</k-button>
 					<k-button
 						icon="trash"
 						theme="negative"
 						v-on:click="item_action({ type: 'remove', haystack: navigation, needle: item.uuid })">
-						Remove
+						Remove Item
 					</k-button>
 				</div>
 			</div>
@@ -93,22 +91,10 @@
 					this.active = !this.active
 				}
 				if(data.type === 'remove') {
-					console.log('removing')
-					console.log(data.haystack)
-					console.log(data.needle)
-					return this.navigation = data.haystack.filter(item => item.uuid !== data.needle).filter(item => {
-	                    if(item.children.length) {
-							item.children = this.item_action({
-								type: 'remove',
-								needle: data.needle,
-								haystack: item.children
-							})
-		                    return item
-						}
-	                })
+					this.$emit('list_remove', data)
 				}
 			}
-        },
+        }
     }
 
 </script>

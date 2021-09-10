@@ -22,22 +22,22 @@
 						v-on:click="modal_open('default')">
 						<span
 							class="k-menu-title">
-							Kirby Link
+							{{ $t('menu.link.title') }}
 						</span>
 						<p
 							class="k-menu-subtitle">
-							Adds a Kirby page to the menu
+							{{ $t('menu.link.text') }}
 						<p>
 		            </k-dropdown-item>
 					<k-dropdown-item
 						v-on:click="modal_open('custom')">
 						<span
 							class="k-menu-title">
-							Custom Link
+							{{ $t('menu.custom.title') }}
 						</span>
 						<p
 							class="k-menu-subtitle">
-							Adds a custom link to the menu, useful external urls etc
+							{{ $t('menu.custom.text') }}
 						<p>
 		            </k-dropdown-item>
 		        </k-dropdown-content>
@@ -54,7 +54,8 @@
 				v-bind:item="item">
 				<listDefault
 					v-bind:item="item"
-					v-bind:navigation="navigation">
+					v-bind:navigation="navigation"
+					v-on:list_remove="list_remove">
 					<template
 						v-slot:handle
 						v-bind:item="item">
@@ -99,7 +100,7 @@
 		<k-empty
 			v-else
 			icon="page">
-			No menu items yet
+			{{ $t('display.empty.text') }}
 		</k-empty>
 		<modalDefault
 			v-if="modal.status"
@@ -116,16 +117,16 @@
 							icon="angle-left"
 							v-on:click="modal_fetch(computed_breadcrumbs)"
 							v-if="query.breadcrumbs.length > 0">
-				            Back
+				            {{ $t('modal.link.breadcrumb') }}
 				        </k-button>
 						<k-headline>
-							Add Pages
+							{{ $t('modal.link.title') }}
 						</k-headline>
 					</template>
 					<template
 						v-else>
 						<k-headline>
-							Add Custom Link
+							{{ $t('modal.custom.title') }}
 						</k-headline>
 					</template>
 				</header>
@@ -203,7 +204,7 @@
 					<k-text
 						theme="help"
 						class="k-field-help k-field-depth">
-						Maximum allowed depth: <strong>{{ computed_levels }}</strong>
+						{{ $t('help.depth.text') }} <strong>{{ computed_levels }}</strong>
 					</k-text>
 				</k-column>
 			</k-grid>
@@ -273,8 +274,19 @@
 					this.query = response
 	            })
 	            .catch(function (error) {
-	                console.log(error);
+	                console.log(error)
 	            })
+			},
+			list_remove(data) {
+				return this.navigation = data.haystack.filter(item => item.uuid !== data.needle).map(item => {
+					if(item.children && item.children.length) {
+						item.children = this.list_remove({
+							haystack: item.children,
+							needle: data.needle
+						})
+					}
+			        return item
+			    })
 			}
         },
 		computed: {

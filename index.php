@@ -9,5 +9,9 @@
 				'props' => require_once __DIR__ . '/config/props.php',
             ],
         ],
+		'translations' => [
+	        'en' => require_once __DIR__ . '/languages/en.php',
+	        'de' => require_once __DIR__ . '/languages/de.php',
+	    ],
 		'fieldMethods' => require_once __DIR__ . '/config/field-methods.php',
     ]);
