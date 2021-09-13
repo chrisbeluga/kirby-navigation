@@ -28,7 +28,7 @@ Two Field methods are included which will output the menu regardless of how many
 If using the site as a headless CMS or would like to consume your menu in JS you can use the following field method to return an array of menu items:
 
 ```
-<?php $site->navigation()->toNavigationArray()
+<?php $site->navigation()->toNavigationArray(); ?>
  ```
 
 Or when using Kirby Query language
@@ -38,7 +38,7 @@ Or when using Kirby Query language
 	"query": "site",
 	"select": {
 		"title": "site.title",
-		"navigation": "site.navigation_main.toNavigationArray"
+		"navigation": "site.navigation.toNavigationArray"
 	}
 }
 ```
