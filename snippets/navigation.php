@@ -2,12 +2,10 @@
 	<?php foreach($children->toStructure() as $child): ?>
 		<li>
 			<a
-				href="<?php echo $child->url()->isNotEmpty() ? $child->url()->value() : ''; ?>"
-				<?php echo $child->popup()->toBool() ? 'target="_blank"' : '' ?>
-				<?php echo $child->title()->isNotEmpty() ? 'title="'.$child->title()->html().'"' : '' ?>>
-				<?php if($child->text()->isNotEmpty()): ?>
-					<?php echo $child->text()->html() ?>
-				<?php endif ?>
+				href="<?php echo $child->url(); ?>"
+				title="<?php echo $child->title()->html() ?>"
+				<?php echo $child->popup()->toBool() ? 'target="_blank"' : '' ?>>
+				<?php echo $child->text()->html() ?>
 			</a>
 			<?php if($child->children()->isNotEmpty()): ?>
 				<?php

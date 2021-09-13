@@ -38,6 +38,10 @@
 				<div
 					ref="config"
 					class="k-form-group">
+					<slot
+						name="dropdown_fields">
+					</slot>
+					<!--
 					<k-grid>
 						<k-column
 							width="1/2">
@@ -52,6 +56,7 @@
 				            </slot>
 						</k-column>
 					</k-grid>
+					-->
 				</div>
 				<div
 					class="k-form-footer">
@@ -78,6 +83,7 @@
     export default {
         props: {
 			item: Object,
+			fields: Object,
 			navigation: Array,
         },
         data() {

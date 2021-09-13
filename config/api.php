@@ -15,7 +15,6 @@
 								foreach($data->children()->first()->parents()->flip() as $parent) {
 									array_push($breadcrumbs, array(
 										'id' => $parent->id(),
-										'uid' => $parent->uid(),
 										'title' => $parent->title()->value()
 									));
 								}
@@ -23,7 +22,6 @@
 							foreach($data->children() as $item) {
 								array_push($content, array(
 									'id' => $item->id(),
-									'uid' => $item->uid(),
 									'url' => $item->url(),
 									'text' => $item->title()->value(),
 									'count' => $item->index()->count(),

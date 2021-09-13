@@ -4,6 +4,7 @@
         class="k-form-field navigation-field"
         v-bind:help="help"
 		v-bind:label="label"
+		v-bind:fields="fields"
 		v-bind:levels="levels"
 		v-bind:disabled="disabled"
         v-bind:required="required">
@@ -47,13 +48,15 @@
             keyProp="uuid"
 			v-model="navigation"
             childrenProp="children"
-			v-if="navigation.length"
-			v-bind:maxDepth="computed_levels">
+			v-bind:fields="fields"
+			v-bind:maxDepth="computed_levels"
+			v-if="navigation.length">
 			<template
 				slot-scope="{ item, index }"
 				v-bind:item="item">
 				<listDefault
 					v-bind:item="item"
+					v-bind:fields="fields"
 					v-bind:navigation="navigation"
 					v-on:action_add="action_add"
 					v-on:action_remove="action_remove">
@@ -70,30 +73,61 @@
 						</VueNestableHandle>
 					</template>
 					<template
-		                v-slot:dropdown_column_one>
-						<k-text-field
-							label="Link Text"
-							v-model="item.text">
-						</k-text-field>
-						<k-text-field
-							label="Link Title"
-							v-model="item.title">
-						</k-text-field>
-						<k-toggle-field
-							label="Popup"
-							v-model="item.popup">
-						</k-toggle-field>
-		            </template>
-					<template
-		                v-slot:dropdown_column_two>
-						<k-text-field
-							label="Link ID"
-							v-model="item.id">
-						</k-text-field>
-						<k-text-field
-							label="Link Url"
-							v-model="item.url">
-						</k-text-field>
+		                v-slot:dropdown_fields>
+						<k-grid>
+							<k-column
+								width="1/2">
+								<k-text-field
+									label="Link Text"
+									v-model="item.text">
+								</k-text-field>
+							</k-column>
+							<k-column
+								width="1/2">
+								<k-text-field
+									label="Link Title"
+									v-model="item.title">
+								</k-text-field>
+							</k-column>
+							<k-column
+								width="1/2">
+								<k-text-field
+									label="Link ID"
+									v-model="item.id">
+								</k-text-field>
+							</k-column>
+							<k-column
+								width="1/2">
+								<k-toggle-field
+									label="Popup"
+									v-model="item.popup">
+								</k-toggle-field>
+							</k-column>
+							<k-column
+								width="1/2">
+								<k-text-field
+									label="Link Url"
+									v-model="item.url">
+								</k-text-field>
+							</k-column>
+						</k-grid>
+						<k-line-field>
+						</k-line-field>
+						<k-grid>
+							<k-column
+								v-for="(field, propertyName) in fields"
+								v-bind:width="field.width">
+								<component
+									v-bind:field="field"
+									v-bind:key="propertyName"
+									v-model="item[propertyName]"
+									v-bind:label="field.label"
+									v-bind:text="field.text"
+									v-bind:is="'k-' + field.type + '-field'">
+								</component>
+							</k-column>
+						</k-grid>
+
 		            </template>
 				</listDefault>
             </template>
@@ -229,6 +263,7 @@
 			help: String,
 			value: Array,
 			label: String,
+			fields: Object,
 			levels: Number,
 			disabled: Boolean,
 			required: Boolean,
@@ -271,7 +306,7 @@
 	            .then((response) => {
 					this.query = response
 	            })
-	            .catch(function (error) {
+	            .catch((error) => {
 	                console.log(error)
 	            })
 			},
@@ -291,8 +326,8 @@
 					children: [],
 					id: data.id,
 					text: data.text,
-					uid: data.uid,
 					url: data.url,
+					popup: data.popup,
 					uuid: Math.random().toString(36).substring(2, 15)
 				})
 			}
@@ -322,10 +357,6 @@
 <style lang="scss">
 
 .navigation-field {
-
-	.k-field {
-		margin-bottom: 14px;
-	}
 
 	.k-field-depth {
 		text-align: right;

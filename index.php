@@ -15,5 +15,6 @@
 	    ],
 		'snippets' => [
 			'navigation' => __DIR__ . '/snippets/navigation.php'
-		]
+		],
+		'fieldMethods' => require_once __DIR__ . '/config/methods.php',
     ]);
