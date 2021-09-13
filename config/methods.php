@@ -16,7 +16,7 @@
 				array_push($items, array(
 					'id' => $child->id(),
 					'url' => $child->url()->value(),
-					'text' => $child->text()->kirbytext(),
+					'text' => $child->text()->value(),
 					'title' => $child->title()->value(),
 					'popup' => $child->popup()->toBool(),
 					'children' => $children,
