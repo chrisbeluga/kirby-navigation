@@ -12,6 +12,7 @@
 		'translations' => [
 	        'en' => require_once __DIR__ . '/languages/en.php',
 	        'de' => require_once __DIR__ . '/languages/de.php',
+	        'tr' => require_once __DIR__ . '/languages/tr.php',
 	    ],
 		'snippets' => [
 			'navigation' => __DIR__ . '/snippets/navigation.php'
