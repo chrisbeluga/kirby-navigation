@@ -277,7 +277,10 @@
 				this.modal = { type: data, status: true }
 			},
 			modal_submit() {
-				if(this.modal.type === 'custom') this.action_add(this.item)
+				if(this.modal.type === 'custom') {
+					this.action_add(this.item)
+					this.item = { url: '', text: '', popup: false }
+				}
 				this.modal = { type: '', status: false }
 			},
 			action_fetch(data) {
