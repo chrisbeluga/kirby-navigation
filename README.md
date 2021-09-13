@@ -7,7 +7,7 @@ A Navigation field for Kirby CMS [Kirby CMS](https://getkirby.com),
 ![](https://github.com/chrisbeluga/kirby-navigation/blob/main/navigation-demo-3.png)
 
 ## Installation & Usage
-Copy plugin files to your plugin's directory. Use the following blueprint  anywhere you want the navigation to appear
+Copy plugin files to your plugin's directory. Use the following blueprint anywhere you want the navigation to appear:
 
 ```
   navigation:
@@ -18,27 +18,7 @@ Copy plugin files to your plugin's directory. Use the following blueprint  anywh
     width: 1/2
 ```
 
-Custom fields can be added to display alongside the menu too, simple add the fields option to the blueprint like so:
-
-```
-  navigation:
-    label: Navigation
-    type: navigation
-    levels: 5
-    help: This is the main navigation of the site
-    width: 1/2
-    fields:
-	  custom_field_1:
-	    label: Custom Field 1
-	    type: text
-	    width: 1/2
-	  custom_field_2:
-	    label: Custom Field 2
-	    type: textarea
-	    width: 1/2
-```
-
-Included is a handy snippet to output your menu up to any level:
+Included is a handy snippet to output your menu up to any level, this can be copied and customised to however you want the menu to appear:
 
 ```
   <?php
@@ -46,6 +26,12 @@ Included is a handy snippet to output your menu up to any level:
       'children' => $site->navigation()
     ]);
   ?>
+```
+
+if using the site as a headless CMS or would like to consume your menu in JS you can use the following field method to return as an array of menu items:
+
+```
+  site()->navigation()->toNavigationMenu()
 ```
 
 If you would like full control of your menu and would prefer to use a foreach loop to create the menu, that could look something like this:
@@ -56,13 +42,13 @@ If you would like full control of your menu and would prefer to use a foreach lo
       <?php foreach($site->navigation()->toStructure() as $navigation): ?>
         <li>
           <a href="<?php echo $navigation->url(); ?>">
-            <?php echo $navigation->text(); ?>
+            <?php echo $navigation->text() ?>
           </a>
           <?php if($navigation->children()->isNotEmpty()): ?>
             <ul>
               <?php foreach($navigation->children()->toStructure() as $children): ?>
-                <a href="<?php echo $children->url(); ?>">
-                  <?php echo $children->text(); ?>
+                <a href="<?php echo $children->url() ?>">
+                  <?php echo $children->text() ?>
                 </a>
               <?php endforeach ?>
             </ul>

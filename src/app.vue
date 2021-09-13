@@ -4,7 +4,6 @@
         class="k-form-field navigation-field"
         v-bind:help="help"
 		v-bind:label="label"
-		v-bind:fields="fields"
 		v-bind:levels="levels"
 		v-bind:disabled="disabled"
         v-bind:required="required">
@@ -48,7 +47,6 @@
             keyProp="uuid"
 			v-model="navigation"
             childrenProp="children"
-			v-bind:fields="fields"
 			v-bind:maxDepth="computed_levels"
 			v-if="navigation.length">
 			<template
@@ -56,7 +54,6 @@
 				v-bind:item="item">
 				<listDefault
 					v-bind:item="item"
-					v-bind:fields="fields"
 					v-bind:navigation="navigation"
 					v-on:action_add="action_add"
 					v-on:action_remove="action_remove">
@@ -111,23 +108,6 @@
 								</k-text-field>
 							</k-column>
 						</k-grid>
-						<k-line-field>
-						</k-line-field>
-						<k-grid>
-							<k-column
-								v-for="(field, propertyName) in fields"
-								v-bind:width="field.width">
-								<component
-									v-bind:field="field"
-									v-bind:key="propertyName"
-									v-model="item[propertyName]"
-									v-bind:label="field.label"
-									v-bind:text="field.text"
-									v-bind:is="'k-' + field.type + '-field'">
-								</component>
-							</k-column>
-						</k-grid>
-
 		            </template>
 				</listDefault>
             </template>
@@ -263,7 +243,6 @@
 			help: String,
 			value: Array,
 			label: String,
-			fields: Object,
 			levels: Number,
 			disabled: Boolean,
 			required: Boolean,
