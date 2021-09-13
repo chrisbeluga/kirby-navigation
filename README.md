@@ -7,32 +7,43 @@ A Navigation field for Kirby CMS [Kirby CMS](https://getkirby.com),
 ## Installation & Usage
 Copy plugin files to your plugin's directory. Use the following blueprint anywhere you want the navigation to appear:
 
-```
-  navigation:
-    label: Navigation
-    type: navigation
-    levels: 5
-    help: Description of menu or where it is used
-    width: 1/2
-```
-
-Included is a handy snippet to output your menu up to any level, this can be copied and customised to however you want the menu to appear:
+## Usage
+Add the following blueprint to wherever you would like the navigation field to appear.
 
 ```
-  <?php
-    snippet('navigation', [
-      'children' => $site->navigation()
-    ]);
-  ?>
+navigation:
+  label: Navigation
+  type: navigation
+  levels: 5
+  help: Description of menu or where it is used
+  width: 1/2
 ```
 
-if using the site as a headless CMS or would like to consume your menu in JS you can use the following field method to return as an array of menu items:
+Two Field methods are included which will output the menu regardless of how many levels deep you go:
 
 ```
-  site()->navigation()->toNavigationMenu()
+<?php echo $site->navigation()->toNavigationMarkup(); ?>
 ```
 
-If you would like full control of your menu and would prefer to use a foreach loop to create the menu, that could look something like this:
+If using the site as a headless CMS or would like to consume your menu in JS you can use the following field method to return an array of menu items:
+
+```
+<?php $site->navigation()->toNavigationArray()
+ ```
+
+Or when using Kirby Query language
+
+```
+{
+	"query": "site",
+	"select": {
+		"title": "site.title",
+		"navigation": "site.navigation_main.toNavigationArray"
+	}
+}
+```
+
+If you would like full control of your menu and would prefer to use a foreach to create the menu, that could look something like this:
 
 ```
   <?php if($site->navigation()->isNotEmpty()): ?>
