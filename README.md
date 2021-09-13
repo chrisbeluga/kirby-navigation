@@ -2,9 +2,7 @@
 A Navigation field for Kirby CMS [Kirby CMS](https://getkirby.com),
 
 ## Preview
-![](https://github.com/chrisbeluga/kirby-navigation/blob/main/navigation-demo-1.png)
-![](https://github.com/chrisbeluga/kirby-navigation/blob/main/navigation-demo-2.png)
-![](https://github.com/chrisbeluga/kirby-navigation/blob/main/navigation-demo-3.png)
+![](https://github.com/chrisbeluga/kirby-navigation/blob/main/navigation-demo-1.gif)
 
 ## Installation & Usage
 Copy plugin files to your plugin's directory. Use the following blueprint anywhere you want the navigation to appear:
