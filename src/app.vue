@@ -182,23 +182,28 @@
 				</template>
 				<template
 					v-else>
-					<k-grid>
-						<k-column
-							width="2/2">
-							<k-text-field
-								label="Link Text"
-								v-model="item.text">
-							</k-text-field>
-							<k-text-field
-								label="Link Url"
-								v-model="item.url">
-							</k-text-field>
-							<k-toggle-field
-								label="Popup"
-								v-model="item.popup">
-							</k-toggle-field>
-						</k-column>
-					</k-grid>
+                    <div class="k-fieldset">
+                        <k-grid>
+                            <k-column>
+                                <k-text-field
+                                    label="Link Text"
+                                    v-model="item.text">
+                                </k-text-field>
+                            </k-column>
+                            <k-column>
+                                <k-text-field
+                                    label="Link Url"
+                                    v-model="item.url">
+                                </k-text-field>
+                            </k-column>
+                            <k-column>
+                                <k-toggle-field
+                                    label="Popup"
+                                    v-model="item.popup">
+                                </k-toggle-field>
+                            </k-column>
+                        </k-grid>
+                    </div>
 				</template>
 			</template>
 		</modalDefault>
