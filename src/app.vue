@@ -150,7 +150,7 @@
 				v-slot:modal_body>
 				<template
 					v-if="modal.type === 'default'">
-					<k-list>
+					<k-items>
 						<listModal
 							v-for="(item, index) in query.content"
 							v-bind:key="item.uuid"
@@ -178,7 +178,7 @@
 								</k-button>
 							</template>
 						</listModal>
-					<k-list>
+					</k-items>
 				</template>
 				<template
 					v-else>
@@ -380,7 +380,7 @@
 		}
 	}
 
-	.k-list .k-list-item:not(:last-child) {
+	.k-items .k-list-item:not(:last-child) {
 		margin-bottom: 2px;
 	}
 
