@@ -260,7 +260,7 @@
         },
 		data() {
 			return {
-				navigation: [],
+				navigation: this.value || [],
 				modal: { type: '', status: false },
 				query: { content: [], breadcrumbs: [] },
 				item: { url: '', text: '', popup: false }
@@ -334,8 +334,7 @@
 			window.panel.app.$root.constructor.use(VueNestable)
 		},
 		mounted() {
-			this.navigation = this.value
-			this.action_fetch('site')
+			this.action_fetch('site');
 		}
     }
 
