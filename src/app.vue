@@ -150,7 +150,7 @@
 				v-slot:modal_body>
 				<template
 					v-if="modal.type === 'default'">
-					<k-items>
+					<k-list>
 						<listModal
 							v-for="(item, index) in query.content"
 							v-bind:key="item.uuid"
@@ -178,32 +178,27 @@
 								</k-button>
 							</template>
 						</listModal>
-					</k-items>
+					<k-list>
 				</template>
 				<template
 					v-else>
-                    <div class="k-fieldset">
-                        <k-grid>
-                            <k-column>
-                                <k-text-field
-                                    label="Link Text"
-                                    v-model="item.text">
-                                </k-text-field>
-                            </k-column>
-                            <k-column>
-                                <k-text-field
-                                    label="Link Url"
-                                    v-model="item.url">
-                                </k-text-field>
-                            </k-column>
-                            <k-column>
-                                <k-toggle-field
-                                    label="Popup"
-                                    v-model="item.popup">
-                                </k-toggle-field>
-                            </k-column>
-                        </k-grid>
-                    </div>
+					<k-grid>
+						<k-column
+							width="2/2">
+							<k-text-field
+								label="Link Text"
+								v-model="item.text">
+							</k-text-field>
+							<k-text-field
+								label="Link Url"
+								v-model="item.url">
+							</k-text-field>
+							<k-toggle-field
+								label="Popup"
+								v-model="item.popup">
+							</k-toggle-field>
+						</k-column>
+					</k-grid>
 				</template>
 			</template>
 		</modalDefault>
@@ -260,7 +255,7 @@
         },
 		data() {
 			return {
-				navigation: this.value || [],
+				navigation: [],
 				modal: { type: '', status: false },
 				query: { content: [], breadcrumbs: [] },
 				item: { url: '', text: '', popup: false }
@@ -334,7 +329,8 @@
 			window.panel.app.$root.constructor.use(VueNestable)
 		},
 		mounted() {
-			this.action_fetch('site');
+			this.navigation = this.value
+			this.action_fetch('site')
 		}
     }
 
@@ -384,7 +380,7 @@
 		}
 	}
 
-	.k-items .k-list-item:not(:last-child) {
+	.k-list .k-list-item:not(:last-child) {
 		margin-bottom: 2px;
 	}
 

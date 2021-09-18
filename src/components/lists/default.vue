@@ -10,7 +10,7 @@
 		</div>
 		<div
 			class="k-form-inner">
-			<k-item
+			<k-list-item
 				v-bind:text="item.text"
 				v-on:action="item_action"
 				v-bind:options="[
@@ -30,7 +30,7 @@
 						click: { type: 'remove', needle: item.uuid, haystack: navigation}
 					}
 				]">
-			</k-item>
+			</k-list-item>
 			<div
 				ref="config"
 				v-if="active"
