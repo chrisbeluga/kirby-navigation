@@ -13,7 +13,7 @@
 		        <k-button
 		            icon="add"
 		            v-on:click="$refs.menu.toggle()">
-		            Add
+		            {{ $t('menu.link.add') }}
 		        </k-button>
 		        <k-dropdown-content
 		            ref="menu"
@@ -64,8 +64,8 @@
 							v-bind:item="item">
 							<k-button
 								icon="sort"
-								tooltip="Sort Items"
-								class="input-handle">
+								class="input-handle"
+								v-bind:tooltip="$t('editor.menu.sort')">
 							</k-button>
 						</VueNestableHandle>
 					</template>
@@ -75,35 +75,35 @@
 							<k-column
 								width="1/2">
 								<k-text-field
-									label="Link Text"
+									v-bind:label="$t('editor.label.text')"
 									v-model="item.text">
 								</k-text-field>
 							</k-column>
 							<k-column
 								width="1/2">
 								<k-text-field
-									label="Link Title"
+									v-bind:label="$t('editor.label.title')"
 									v-model="item.title">
 								</k-text-field>
 							</k-column>
 							<k-column
 								width="1/2">
 								<k-text-field
-									label="Link ID"
+									v-bind:label="$t('editor.label.id')"
 									v-model="item.id">
 								</k-text-field>
 							</k-column>
 							<k-column
 								width="1/2">
 								<k-toggle-field
-									label="Popup"
+									v-bind:label="$t('editor.label.popup')"
 									v-model="item.popup">
 								</k-toggle-field>
 							</k-column>
 							<k-column
 								width="1/2">
 								<k-text-field
-									label="Link Url"
+									v-bind:label="$t('editor.label.url')"
 									v-model="item.url">
 								</k-text-field>
 							</k-column>
@@ -115,7 +115,7 @@
 		<k-empty
 			v-else
 			icon="page">
-			{{ $t('display.empty.text') }}
+			{{ $t('help.empty.text') }}
 		</k-empty>
 		<modalDefault
 			v-if="modal.status"
@@ -186,15 +186,15 @@
 						<k-column
 							width="2/2">
 							<k-text-field
-								label="Link Text"
+								v-bind:label="$t('editor.label.text')"
 								v-model="item.text">
 							</k-text-field>
 							<k-text-field
-								label="Link Url"
+								v-bind:label="$t('editor.label.url')"
 								v-model="item.url">
 							</k-text-field>
 							<k-toggle-field
-								label="Popup"
+								v-bind:label="$t('editor.label.popup')"
 								v-model="item.popup">
 							</k-toggle-field>
 						</k-column>
@@ -230,7 +230,7 @@
 
 <script>
 
-    // Import Libraries
+	// Import Libraries
 	import VueNestable from 'vue-nestable'
 
 	// Import Components
@@ -324,9 +324,6 @@
 			computed_breadcrumbs() {
 				return this.query.breadcrumbs.length >= 2 ? this.query.breadcrumbs[this.query.breadcrumbs.length-2].id : 'site'
 			}
-		},
-		beforeCreate() {
-			window.panel.app.$root.constructor.use(VueNestable)
 		},
 		mounted() {
 			this.navigation = this.value

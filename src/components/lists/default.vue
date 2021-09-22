@@ -16,17 +16,17 @@
 				v-bind:options="[
 					{
 						icon: 'add',
-						text: active ? 'Close Item' : 'Edit Item',
+						text: active ? $t('editor.menu.close') : $t('editor.menu.edit'),
 						click: { type: 'edit' }
 					},
 					{
 						icon: 'copy',
-						text: 'Duplicate Item',
+						text: $t('editor.menu.duplicate'),
 						click: { type: 'duplicate', item: item }
 					},
 					{
 						icon: 'trash',
-						text: 'Remove Item',
+						text: $t('editor.menu.remove'),
 						click: { type: 'remove', needle: item.uuid, haystack: navigation}
 					}
 				]">
@@ -63,13 +63,13 @@
 					<k-button
 						icon="remove"
 						v-on:click="item_action({ type: 'edit' })">
-						Close Item
+						{{ $t('editor.menu.close') }}
 					</k-button>
 					<k-button
 						icon="trash"
 						theme="negative"
 						v-on:click="item_action({ type: 'remove', haystack: navigation, needle: item.uuid })">
-						Remove Item
+						{{ $t('editor.menu.remove') }}
 					</k-button>
 				</div>
 			</div>
