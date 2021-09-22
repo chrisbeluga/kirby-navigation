@@ -10,10 +10,6 @@
       "homepage": "https://builtbybeluga.com/"
     }
   ],
-  "require": {
-    "getkirby/cms": "^3.2",
-    "getkirby/composer-installer": "^2.0"
-  },
   "extra": {
     "installer-name": "kirby-navigation"
   }
