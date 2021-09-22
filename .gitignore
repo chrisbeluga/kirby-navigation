@@ -1,2 +1,6 @@
+composer.lock
+package-lock.json
+.idea
+.cache
+.DS_Store
 node_modules
-cache
