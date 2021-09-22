@@ -1,5 +1,5 @@
 {
-  "name": "beluga/kirby-navigation",
+  "name": "belugadigital/kirby-navigation",
   "description": "Kirby 3 field for hierarchical menus with drag & drop level indentation.",
   "type": "kirby-plugin",
   "license": "MIT",
