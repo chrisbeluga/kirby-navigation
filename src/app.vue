@@ -141,7 +141,7 @@
 
       <template v-slot:modal_body>
         <template v-if="modal.type === 'default'">
-          <k-list>
+          <k-items>
             <listModal
                 v-for="(item, index) in query.content"
                 v-bind:key="item.uuid"
@@ -167,28 +167,34 @@
                 </k-button>
               </template>
             </listModal>
-          </k-list>
+          </k-items>
         </template>
 
         <template v-else>
-          <k-grid>
-            <k-column width="2/2">
-              <k-text-field
-                  v-bind:label="$t('editor.label.text')"
-                  v-model="item.text">
-              </k-text-field>
+          <div class="k-fieldset">
+            <k-grid>
+              <k-column>
+                <k-text-field
+                    v-bind:label="$t('editor.label.text')"
+                    v-model="item.text">
+                </k-text-field>
+              </k-column>
 
-              <k-text-field
-                  v-bind:label="$t('editor.label.url')"
-                  v-model="item.url">
-              </k-text-field>
+              <k-column>
+                <k-text-field
+                    v-bind:label="$t('editor.label.url')"
+                    v-model="item.url">
+                </k-text-field>
+              </k-column>
 
-              <k-toggle-field
-                  v-bind:label="$t('editor.label.popup')"
-                  v-model="item.popup">
-              </k-toggle-field>
-            </k-column>
-          </k-grid>
+              <k-column>
+                <k-toggle-field
+                    v-bind:label="$t('editor.label.popup')"
+                    v-model="item.popup">
+                </k-toggle-field>
+              </k-column>
+            </k-grid>
+          </div>
         </template>
       </template>
     </modalDefault>
@@ -240,7 +246,7 @@ export default {
   },
   data() {
     return {
-      navigation: [],
+      navigation: this.value || [],
       modal: {type: '', status: false},
       query: {content: [], breadcrumbs: []},
       item: {url: '', text: '', popup: false}
@@ -311,8 +317,7 @@ export default {
     }
   },
   mounted() {
-    this.navigation = this.value
-    this.action_fetch('site')
+    this.action_fetch('site');
   }
 }
 </script>
@@ -358,7 +363,7 @@ export default {
     }
   }
 
-  .k-list .k-list-item:not(:last-child) {
+  .k-items .k-list-item:not(:last-child) {
     margin-bottom: 2px;
   }
 

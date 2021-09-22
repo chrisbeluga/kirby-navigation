@@ -4,7 +4,7 @@
       <slot name="handle"/>
     </div>
     <div class="k-form-inner">
-      <k-list-item
+      <k-item
           v-bind:text="item.text"
           v-on:action="item_action"
           v-bind:options="[
@@ -23,8 +23,8 @@
 						text: $t('editor.menu.remove'),
 						click: { type: 'remove', needle: item.uuid, haystack: navigation}
 					}
-				]">
-      </k-list-item>
+				]"
+      />
       <div
           ref="config"
           v-if="active"
