@@ -12,15 +12,10 @@
     }
   ],
   "require": {
-        "getkirby/composer-installer": "^1.1"
-  },
-  "autoload": {
-        "psr-4": {
-            "belugadigital\\kirby-navigation\\": "src/"
-        }
+    "getkirby/composer-installer": "^1.2"
   },
   "config": {
-        "optimize-autoloader": true
+    "optimize-autoloader": true
   },
   "extra": {
     "installer-name": "kirby-navigation"
