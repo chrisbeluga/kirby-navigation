@@ -11,6 +11,17 @@
       "homepage": "https://builtbybeluga.com/"
     }
   ],
+  "require": {
+        "getkirby/composer-installer": "^1.1"
+  },
+  "autoload": {
+        "psr-4": {
+            "belugadigital\\kirby-navigation\\": "src/"
+        }
+  },
+  "config": {
+        "optimize-autoloader": true
+  },
   "extra": {
     "installer-name": "kirby-navigation"
   }
