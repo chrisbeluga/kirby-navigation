@@ -2,7 +2,7 @@
   "name": "belugadigital/kirby-navigation",
   "description": "Kirby 3 field for hierarchical menus with drag & drop level indentation.",
   "type": "kirby-plugin",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "license": "MIT",
   "authors": [
     {
@@ -11,6 +11,12 @@
       "homepage": "https://builtbybeluga.com/"
     }
   ],
+  "require": {
+    "getkirby/composer-installer": "^1.2"
+  },
+  "config": {
+    "optimize-autoloader": true
+  },
   "extra": {
     "installer-name": "kirby-navigation"
   }
