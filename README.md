@@ -10,7 +10,7 @@ Copy plugin files to your plugin's directory. Use the following blueprint anywhe
 ## Usage
 Add the following blueprint to wherever you would like the navigation field to appear.
 
-```
+```yaml
 navigation:
   label: Navigation
   type: navigation
@@ -21,19 +21,19 @@ navigation:
 
 Two Field methods are included which will output the menu regardless of how many levels deep you go:
 
-```
+```php
 <?php echo $site->navigation()->toNavigationMarkup(); ?>
 ```
 
 If using the site as a headless CMS or would like to consume your menu in JS you can use the following field method to return an array of menu items:
 
-```
+```php
 <?php $site->navigation()->toNavigationArray(); ?>
  ```
 
 Or when using Kirby Query language
 
-```
+```json
 {
 	"query": "site",
 	"select": {
@@ -45,7 +45,7 @@ Or when using Kirby Query language
 
 If you would like full control of your menu and would prefer to use a foreach to create the menu, that could look something like this:
 
-```
+```php
   <?php if($site->navigation()->isNotEmpty()): ?>
     <ul>
       <?php foreach($site->navigation()->toStructure() as $navigation): ?>
