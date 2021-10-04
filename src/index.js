@@ -1,13 +1,9 @@
-// Import Libraries
-import VueNestable from 'vue-nestable'
+import VueNestable from "vue-nestable/dist/index.esm";
+import Field from './Field.vue'
 
-// Fields
-import app from './app.vue'
-
-// Init
 panel.plugin('beluga/navigation', {
   fields: {
-    navigation: app
+    navigation: Field
   },
   use: VueNestable
 })

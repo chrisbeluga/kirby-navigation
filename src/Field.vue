@@ -225,9 +225,9 @@
 
 <script>
 // Import Components
-import listModal from './components/lists/modal.vue'
-import listDefault from './components/lists/default.vue'
-import modalDefault from './components/modal/default.vue'
+import ListModal from './components/Lists/Modal.vue'
+import ListDefault from './components/Lists/Default.vue'
+import ModalDefault from './components/Modal/Default.vue'
 
 export default {
   props: {
@@ -240,9 +240,9 @@ export default {
     endpoints: Object,
   },
   components: {
-    listModal,
-    listDefault,
-    modalDefault,
+    ListModal,
+    ListDefault,
+    ModalDefault
   },
   data() {
     return {
