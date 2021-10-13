@@ -52,16 +52,16 @@ If you would like full control of your menu and would prefer to use a foreach to
 ```php
   <?php if($site->navigation()->isNotEmpty()): ?>
     <ul>
-      <?php foreach($site->navigation()->toStructure() as $navigation): ?>
+      <?php foreach($site->navigation()->toStructure() as $nav): ?>
         <li>
-          <a href="<?php echo $navigation->url(); ?>">
-            <?php echo $navigation->text() ?>
+          <a href="<?php echo $nav->url(); ?>" <?php e($nav->isOpen(), 'aria-current') ?>>
+            <?php echo $nav->text() ?>
           </a>
-          <?php if($navigation->children()->isNotEmpty()): ?>
+          <?php if($nav->children()->isNotEmpty()): ?>
             <ul>
-              <?php foreach($navigation->children()->toStructure() as $children): ?>
-                <a href="<?php echo $children->url() ?>">
-                  <?php echo $children->text() ?>
+              <?php foreach($nav->children()->toStructure() as $child): ?>
+                <a href="<?php echo $child->url() ?>">
+                  <?php echo $nav->text() ?>
                 </a>
               <?php endforeach ?>
             </ul>
