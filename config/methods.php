@@ -7,14 +7,16 @@ return [
             $children = [];
 
             if ($child->children()->isNotEmpty()) {
-                array_push($children, $child->children()->toNavigationMenu($field));
+                array_push($children, $child->children());
             }
+
             array_push($items, [
                 'id' => $child->id(),
                 'url' => $child->url()->value(),
                 'text' => $child->text()->value(),
                 'title' => $child->title()->value(),
                 'popup' => $child->popup()->toBool(),
+                'isOpen' => kirby()->url('current') === $child->url()->value(),
                 'children' => $children,
             ]);
         }
