@@ -5,6 +5,8 @@ A Navigation field for Kirby CMS [Kirby CMS](https://getkirby.com),
 ![](https://github.com/chrisbeluga/kirby-navigation/blob/main/navigation-demo-1.gif)
 
 ## Installation & Usage
+**Note:** For Kirby 3.6+ use the [`v2`](https://github.com/chrisbeluga/kirby-navigation/tree/v2) branch.
+
 Copy plugin files to your plugin's directory. Use the following blueprint anywhere you want the navigation to appear:
 
 ## Usage
