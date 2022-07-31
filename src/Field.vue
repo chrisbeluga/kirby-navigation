@@ -141,33 +141,29 @@
 
       <template v-slot:modal_body>
         <template v-if="modal.type === 'default'">
-          <k-items>
-            <listModal
-                v-for="(item, index) in query.content"
-                v-bind:key="item.uuid"
-                v-bind:item="item">
-              <template v-slot:text>
-								<span class="k-menu-text">
-									{{ item.text }}
-								</span>
-              </template>
+          <listModal
+              v-for="(item, index) in query.content"
+              v-bind:key="item.uuid"
+              v-bind:item="item">
+            <template v-slot:text>
+              <span class="k-menu-text">{{ item.text }}</span>
+            </template>
 
-              <template v-slot:fetch>
-                <k-button
-                    icon="angle-right"
-                    v-if="item.count > 0"
-                    v-on:click="action_fetch(item.id)">
-                </k-button>
-              </template>
+            <template v-slot:fetch>
+              <k-button
+                  icon="angle-right"
+                  v-if="item.count > 0"
+                  v-on:click="action_fetch(item.id)">
+              </k-button>
+            </template>
 
-              <template v-slot:add>
-                <k-button
-                    icon="add"
-                    v-on:click="action_add(item)">
-                </k-button>
-              </template>
-            </listModal>
-          </k-items>
+            <template v-slot:add>
+              <k-button
+                  icon="add"
+                  v-on:click="action_add(item)">
+              </k-button>
+            </template>
+          </listModal>
         </template>
 
         <template v-else>
@@ -361,10 +357,6 @@ export default {
         }
       }
     }
-  }
-
-  .k-items .k-list-item:not(:last-child) {
-    margin-bottom: 2px;
   }
 
   .nestable-handle {
