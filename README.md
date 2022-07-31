@@ -14,8 +14,9 @@ Copy plugin files to your plugin's directory. Use the following blueprint anywhe
 
 | Kirby version | Compatible plugin version |
 |:--------------|:--------------------------|
-| ^3.5          | ^1.0                      |
+| ^3.7          | ^3.0                      |
 | ^3.6          | ^2.0                      |
+| ^3.5          | ^1.0                      |
 
 ## Usage
 
