@@ -1,13 +1,24 @@
 # Kirby Navigation Field
+
 A Navigation field for Kirby CMS [Kirby CMS](https://getkirby.com),
 
 ## Preview
+
 ![](https://github.com/chrisbeluga/kirby-navigation/blob/main/navigation-demo-1.gif)
 
 ## Installation & Usage
+
 Copy plugin files to your plugin's directory. Use the following blueprint anywhere you want the navigation to appear:
 
+## Kirby compatibility table
+
+| Kirby version | Compatible plugin version |
+|:--------------|:--------------------------|
+| ^3.5          | ^1.0                      |
+| ^3.6          | ^2.0                      |
+
 ## Usage
+
 Add the following blueprint to wherever you would like the navigation field to appear.
 
 ```yaml
@@ -35,11 +46,11 @@ Or when using Kirby Query language
 
 ```json
 {
-	"query": "site",
-	"select": {
-		"title": "site.title",
-		"navigation": "site.navigation.toNavigationArray"
-	}
+  "query": "site",
+  "select": {
+    "title": "site.title",
+    "navigation": "site.navigation.toNavigationArray"
+  }
 }
 ```
 
@@ -48,16 +59,16 @@ If you would like full control of your menu and would prefer to use a foreach to
 ```php
   <?php if($site->navigation()->isNotEmpty()): ?>
     <ul>
-      <?php foreach($site->navigation()->toStructure() as $navigation): ?>
+      <?php foreach($site->navigation()->toStructure() as $nav): ?>
         <li>
-          <a href="<?php echo $navigation->url(); ?>">
-            <?php echo $navigation->text() ?>
+          <a href="<?php echo $nav->url(); ?>" <?php e($nav->isOpen(), 'aria-current') ?>>
+            <?php echo $nav->text() ?>
           </a>
-          <?php if($navigation->children()->isNotEmpty()): ?>
+          <?php if($nav->children()->isNotEmpty()): ?>
             <ul>
-              <?php foreach($navigation->children()->toStructure() as $children): ?>
-                <a href="<?php echo $children->url() ?>">
-                  <?php echo $children->text() ?>
+              <?php foreach($nav->children()->toStructure() as $child): ?>
+                <a href="<?php echo $child->url() ?>">
+                  <?php echo $nav->text() ?>
                 </a>
               <?php endforeach ?>
             </ul>
@@ -69,10 +80,13 @@ If you would like full control of your menu and would prefer to use a foreach to
 ```
 
 ## Info
+
 Nesting limit is set as default to 5, to allow further levels adjust the levels option in the blueprint
 
 ## Contributing
+
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
+
 [MIT](https://choosealicense.com/licenses/mit/)
