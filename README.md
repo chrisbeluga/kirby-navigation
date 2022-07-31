@@ -10,6 +10,13 @@ A Navigation field for Kirby CMS [Kirby CMS](https://getkirby.com),
 
 Copy plugin files to your plugin's directory. Use the following blueprint anywhere you want the navigation to appear:
 
+## Kirby compatibility table
+
+| Kirby version | Compatible plugin version |
+|:--------------|:--------------------------|
+| ^3.5          | ^1.0                      |
+| ^3.6          | ^2.0                      |
+
 ## Usage
 
 Add the following blueprint to wherever you would like the navigation field to appear.
