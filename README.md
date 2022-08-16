@@ -23,12 +23,15 @@ Copy plugin files to your plugin's directory. Use the following blueprint anywhe
 Add the following blueprint to wherever you would like the navigation field to appear.
 
 ```yaml
-navigation:
-  label: Navigation
-  type: navigation
-  levels: 5
-  help: Description of menu or where it is used
-  width: 1/2
+fields:
+  type: fields
+  fields:
+    navigation:
+      label: Navigation
+      type: navigation
+      levels: 5
+      help: Description of menu or where it is used
+      width: 1/2
 ```
 
 Two Field methods are included which will output the menu regardless of how many levels deep you go:
@@ -69,7 +72,7 @@ If you would like full control of your menu and would prefer to use a foreach to
             <ul>
               <?php foreach($nav->children()->toStructure() as $child): ?>
                 <a href="<?php echo $child->url() ?>">
-                  <?php echo $nav->text() ?>
+                  <?php echo $child->text() ?>
                 </a>
               <?php endforeach ?>
             </ul>
