@@ -71,9 +71,11 @@ If you would like full control of your menu and would prefer to use a foreach to
           <?php if($nav->children()->isNotEmpty()): ?>
             <ul>
               <?php foreach($nav->children()->toStructure() as $child): ?>
-                <a href="<?php echo $child->url() ?>">
-                  <?php echo $child->text() ?>
-                </a>
+                <li>
+                  <a href="<?php echo $child->url() ?>">
+                    <?php echo $child->text() ?>
+                  </a>
+                </li>
               <?php endforeach ?>
             </ul>
           <?php endif ?>
