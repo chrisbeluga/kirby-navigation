@@ -24,13 +24,12 @@ Add the following blueprint to wherever you would like the navigation field to a
 
 ```yaml
 fields:
-  fields:
-    navigation:
-      label: Navigation
-      type: navigation
-      levels: 5
-      help: Description of menu or where it is used
-      width: 1/2
+  navigation:
+    label: Navigation
+    type: navigation
+    levels: 5
+    help: Description of menu or where it is used
+    width: 1/2
 ```
 
 Two Field methods are included which will output the menu regardless of how many levels deep you go:
