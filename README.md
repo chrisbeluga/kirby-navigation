@@ -24,7 +24,6 @@ Add the following blueprint to wherever you would like the navigation field to a
 
 ```yaml
 fields:
-  type: fields
   fields:
     navigation:
       label: Navigation
