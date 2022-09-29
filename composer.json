@@ -1,8 +1,8 @@
 {
-  "name": "belugadigital/kirby-navigation",
+  "name": "chrisbeluga/kirby-navigation",
   "description": "Kirby 3 field for hierarchical menus with drag & drop level indentation.",
   "type": "kirby-plugin",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "MIT",
   "homepage": "https://github.com/chrisbeluga/kirby-navigation",
   "authors": [
@@ -14,7 +14,7 @@
     {
       "name": "Ahmet Bora",
       "email": "ahmet@getkirby.com",
-      "homepage": "https://clicktonext.com/"
+      "homepage": "https://owebstudio.com/"
     }
   ],
   "require": {
