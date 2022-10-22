@@ -8,7 +8,7 @@ A Navigation field for Kirby CMS [Kirby CMS](https://getkirby.com),
 
 ## Installation & Usage
 
-Copy plugin files to your plugin's directory. Use the following blueprint anywhere you want the navigation to appear:
+Copy plugin files to your plugin's directory or install via composer with `composer require belugadigital/kirby-navigation`
 
 ## Kirby compatibility table
 
@@ -20,7 +20,7 @@ Copy plugin files to your plugin's directory. Use the following blueprint anywhe
 
 ## Usage
 
-Add the following blueprint to wherever you would like the navigation field to appear.
+Add the following blueprint to wherever you would like the navigation field to appear:
 
 ```yaml
 fields:
