@@ -10,13 +10,17 @@ return [
                 array_push($children, $child->children());
             }
 
+            $page = page($child->uuid()->toString());
+            $target = $child->popup()->toBool() ? '_blank' : '_self';
+            $isOpen = $page ? $page->isActive() : false;
+
             array_push($items, [
-                'id' => $child->id(),
-                'url' => $child->url()->value(),
+                'uuid' => $child->uuid()->toString(),
+                'url' => $page ? $page->url() : $child->url(),
                 'text' => $child->text()->value(),
-                'title' => $child->title()->value(),
+                'clickable' => $child->clickable()->toBool(),
                 'popup' => $child->popup()->toBool(),
-                'isOpen' => kirby()->url('current') === $child->url()->value(),
+                'isOpen' => $isOpen,
                 'children' => $children,
             ]);
         }

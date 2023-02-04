@@ -21,7 +21,7 @@
 					{
 						icon: 'trash',
 						text: $t('editor.menu.remove'),
-						click: { type: 'remove', needle: item.uuid, haystack: navigation}
+						click: { type: 'remove', needle: item.key, haystack: navigation}
 					}
 				]"
       />
@@ -43,7 +43,7 @@
           <k-button
               icon="trash"
               theme="negative"
-              v-on:click="item_action({ type: 'remove', haystack: navigation, needle: item.uuid })">
+              v-on:click="item_action({ type: 'remove', haystack: navigation, needle: item.key })">
             {{ $t('editor.menu.remove') }}
           </k-button>
         </div>
