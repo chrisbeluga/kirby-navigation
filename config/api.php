@@ -5,29 +5,30 @@ return function () {
         [
             'pattern' => 'listings/(:all)',
             'method' => 'GET',
-            'action' => function ($all) {
+            'action' => function ($uuid) {
+                // Expects a page uuid stripped of 'page'
                 $content = [];
                 $breadcrumbs = [];
-                $getData = $all !== 'site' ? true : false;
-                $data = $getData ? page($all) : site();
+                $getData = $uuid !== 'site';
+                $data = $getData ? page('page://' . $uuid) : site();
 
                 if ($data->hasChildren()) {
                     if ($getData) {
                         foreach ($data->children()->first()->parents()->flip() as $parent) {
                             array_push($breadcrumbs,[
-                                'id' => $parent->id(),
-                                'title' => $parent->title()->value()
+                                'uuid' => $parent->uuid()->toString(),
+                                'text' => $parent->title()->value(),
                             ]);
                         }
                     }
 
                     foreach ($data->children() as $item) {
+                        $uuid = $item->uuid()->toString();
                         array_push($content, [
-                            'id' => $item->id(),
-                            'url' => $item->url(),
+                            'uuid' => $uuid,
                             'text' => $item->title()->value(),
                             'count' => $item->index()->count(),
-                            'children' => []
+                            'children' => [],
                         ]);
                     }
                 }
@@ -36,6 +37,6 @@ return function () {
                     'breadcrumbs' => $breadcrumbs,
                 ];
             }
-        ],
+        ]
     ];
 };

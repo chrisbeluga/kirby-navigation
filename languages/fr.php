@@ -11,6 +11,7 @@ return [
     'editor.label.text' => 'Texte',
     'editor.label.title' => 'Titre',
     'editor.label.popup' => 'Popup',
+    'editor.label.clickable' => 'Cliquable',
     'editor.menu.close' => 'Fermer l\'élement',
     'editor.menu.edit' => 'Éditer l\'élement',
     'editor.menu.remove' => 'Supprimer l\'élement',

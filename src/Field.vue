@@ -39,7 +39,7 @@
     </template>
 
     <vue-nestable
-        keyProp="uuid"
+        keyProp="key"
         v-model="navigation"
         childrenProp="children"
         v-bind:maxDepth="computed_levels"
@@ -63,44 +63,55 @@
               </k-button>
             </VueNestableHandle>
           </template>
+
           <template v-slot:dropdown_fields>
-            <k-grid>
-              <k-column width="1/2">
-                <k-text-field
-                    v-bind:label="$t('editor.label.text')"
-                    v-model="item.text">
-                </k-text-field>
-              </k-column>
+            <template>
+              <k-grid>
+                <k-column width="1">
+                  <k-text-field
+                      v-bind:label="$t('editor.label.text')"
+                      v-model="item.text">
+                  </k-text-field>
+                </k-column>
 
-              <k-column width="1/2">
-                <k-text-field
-                    v-bind:label="$t('editor.label.title')"
-                    v-model="item.title">
-                </k-text-field>
-              </k-column>
+                <k-column width="1/2">
+                  <k-toggle-field
+                      v-bind:label="$t('editor.label.popup')"
+                      v-model="item.popup">
+                  </k-toggle-field>
+                </k-column>
 
-              <k-column width="1/2">
-                <k-text-field
-                    v-bind:label="$t('editor.label.id')"
-                    v-model="item.id">
-                </k-text-field>
-              </k-column>
+                <k-column width="1/2">
+                  <k-toggle-field
+                      v-bind:label="$t('editor.label.clickable')"
+                      v-model="item.clickable">
+                  </k-toggle-field>
+                </k-column>
 
-              <k-column width="1/2">
-                <k-toggle-field
-                    v-bind:label="$t('editor.label.popup')"
-                    v-model="item.popup">
-                </k-toggle-field>
-              </k-column>
+                <template v-if="item.uuid">
+                  <k-column width="1">
+                    <k-text
+                      theme="help"
+                      v-bind:label="$t('editor.label.id')"
+                      v-text="item.uuid">
+                    </k-text>
+                  </k-column>
+                </template>
 
-              <k-column width="1/2">
-                <k-text-field
-                    v-bind:label="$t('editor.label.url')"
-                    v-model="item.url">
-                </k-text-field>
-              </k-column>
-            </k-grid>
+                <template v-else>
+                  <k-column width="1">
+                    <k-text-field
+                      v-bind:label="$t('editor.label.url')"
+                      v-model="item.url">
+                    </k-text-field>
+                  </k-column>
+                  
+                </template>
+
+              </k-grid>
+            </template>
           </template>
+
         </listDefault>
       </template>
     </vue-nestable>
@@ -111,6 +122,7 @@
       {{ $t('help.empty.text') }}
     </k-empty>
 
+    <!-- PAGE SELECT MODAL -->
     <modalDefault
         v-if="modal.status"
         v-bind:modal="modal.status"
@@ -153,7 +165,7 @@
               <k-button
                   icon="angle-right"
                   v-if="item.count > 0"
-                  v-on:click="action_fetch(item.id)">
+                  v-on:click="action_fetch(item.uuid)">
               </k-button>
             </template>
 
@@ -181,6 +193,13 @@
                     v-bind:label="$t('editor.label.url')"
                     v-model="item.url">
                 </k-text-field>
+              </k-column>
+
+              <k-column>
+                <k-toggle-field
+                    v-bind:label="$t('editor.label.clickable')"
+                    v-model="item.clickable">
+                </k-toggle-field>
               </k-column>
 
               <k-column>
@@ -245,7 +264,7 @@ export default {
       navigation: this.value || [],
       modal: {type: '', status: false},
       query: {content: [], breadcrumbs: []},
-      item: {url: '', text: '', popup: false}
+      item: {text: '', popup: false, clickable: true}
     }
   },
   watch: {
@@ -266,12 +285,20 @@ export default {
     modal_submit() {
       if (this.modal.type === 'custom') {
         this.action_add(this.item)
-        this.item = {url: '', text: '', popup: false}
+        this.item = {
+          text: '',
+          popup: false,
+          clickable: true
+        }
       }
-      this.modal = {type: '', status: false}
+      this.modal = {
+        type: '',
+        status: false
+      }
     },
-    action_fetch(data) {
-      this.$api.get(this.endpoints.field + '/listings/' + data)
+    action_fetch(target) {
+      // If uuid, remove the prefix as kirby router won't handle slashes well
+      this.$api.get(this.endpoints.field + '/listings/' + target.replace('page://', ''))
           .then((response) => {
             this.query = response
           })
@@ -280,24 +307,28 @@ export default {
           })
     },
     action_remove(data) {
-      return this.navigation = data.haystack.filter(item => item.uuid !== data.needle).map(item => {
-        if (item.children && item.children.length) {
-          item.children = this.action_remove({
-            haystack: item.children,
-            needle: data.needle
-          })
-        }
-        return item
-      })
+      return this.navigation = data.haystack
+        .filter(item => item.uuid !== data.needle)
+        .map(item => {
+          if (item.children && item.children.length) {
+            item.children = this.action_remove({
+              haystack: item.children,
+              needle: data.needle
+            })
+          }
+
+          return item
+        })
     },
     action_add(data) {
       this.navigation.push({
         children: [],
-        id: data.id,
         text: data.text,
+        popup: (data.popup === undefined || data.popup === null) ? false : !!data.popup,
+        clickable: (data.clickable === undefined || data.clickable === null) ? true : !!data.clickable,
+        uuid: data.uuid || null,
         url: data.url,
-        popup: data.popup,
-        uuid: Math.random().toString(36).substring(2, 15)
+        key: Math.random().toString(36).substring(2, 15)
       })
     }
   },
@@ -309,7 +340,7 @@ export default {
       return this.levels ? this.levels : 10
     },
     computed_breadcrumbs() {
-      return this.query.breadcrumbs.length >= 2 ? this.query.breadcrumbs[this.query.breadcrumbs.length - 2].id : 'site'
+      return this.query.breadcrumbs.length >= 2 ? this.query.breadcrumbs[this.query.breadcrumbs.length - 2].uuid : 'site'
     }
   },
   mounted() {
