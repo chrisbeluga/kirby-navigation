@@ -155,7 +155,7 @@
         <template v-if="modal.type === 'default'">
           <listModal
               v-for="(item, index) in query.content"
-              v-bind:key="item.uuid"
+              v-bind:key="item.key"
               v-bind:item="item">
             <template v-slot:text>
               <span class="k-menu-text">{{ item.text }}</span>
@@ -308,7 +308,7 @@ export default {
     },
     action_remove(data) {
       return this.navigation = data.haystack
-        .filter(item => item.uuid !== data.needle)
+        .filter(item => item.key !== data.needle)
         .map(item => {
           if (item.children && item.children.length) {
             item.children = this.action_remove({
