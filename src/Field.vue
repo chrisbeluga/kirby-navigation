@@ -9,7 +9,7 @@
 
     <template v-slot:options>
       <k-dropdown>
-        <k-button
+        <k-button v-if="!disabled"
             icon="add"
             v-on:click="$refs.menu.toggle()">
           {{ $t('menu.link.add') }}
@@ -46,10 +46,12 @@
         v-if="navigation.length">
       <template
           slot-scope="{ item, index }"
-          v-bind:item="item">
+          v-bind:item="item"
+          v-if="item.type!='save'">
         <listDefault
             v-bind:item="item"
             v-bind:navigation="navigation"
+            v-bind:navigationdisabled="disabled"
             v-on:action_add="action_add"
             v-on:action_remove="action_remove">
           <template
@@ -64,25 +66,60 @@
             </VueNestableHandle>
           </template>
           <template v-slot:dropdown_fields>
-            <k-grid>
+            <k-grid v-if="item.type == 'page'">
+              <k-column width="1">
+                <k-info-field
+                    v-bind:text="item[langkey('page_title')]"
+                    icon="page">
+                </k-info-field>
+                <k-info-field
+                    v-bind:text="item[langkey('page_url')]"
+                    icon="url">
+                </k-info-field>
+              </k-column>
+
               <k-column width="1/2">
                 <k-text-field
                     v-bind:label="$t('editor.label.text')"
-                    v-model="item.text">
+                    v-model="item[langkey('link_text')]">
                 </k-text-field>
               </k-column>
 
               <k-column width="1/2">
                 <k-text-field
                     v-bind:label="$t('editor.label.title')"
-                    v-model="item.title">
+                    v-model="item[langkey('link_title')]">
+                </k-text-field>
+              </k-column>
+
+
+              <k-column width="1/2">
+                <k-toggle-field
+                    v-bind:label="$t('editor.label.popup')"
+                    v-model="item.popup">
+                </k-toggle-field>
+              </k-column>
+            </k-grid>
+
+            <k-grid v-else-if="item.type == 'custom'">
+              <k-column width="1/2">
+                <k-text-field
+                    v-bind:label="$t('editor.label.text')"
+                    v-model="item[langkey('link_text')]">
                 </k-text-field>
               </k-column>
 
               <k-column width="1/2">
                 <k-text-field
-                    v-bind:label="$t('editor.label.id')"
-                    v-model="item.id">
+                    v-bind:label="$t('editor.label.title')"
+                    v-model="item[langkey('link_title')]">
+                </k-text-field>
+              </k-column>
+
+              <k-column width="1/2">
+                <k-text-field
+                    v-bind:label="$t('editor.label.url')"
+                    v-model="item.url">
                 </k-text-field>
               </k-column>
 
@@ -93,12 +130,6 @@
                 </k-toggle-field>
               </k-column>
 
-              <k-column width="1/2">
-                <k-text-field
-                    v-bind:label="$t('editor.label.url')"
-                    v-model="item.url">
-                </k-text-field>
-              </k-column>
             </k-grid>
           </template>
         </listDefault>
@@ -131,7 +162,7 @@
             </k-headline>
           </template>
 
-          <template v-else>
+          <template v-if="modal.type === 'custom'">
             <k-headline>
               {{ $t('modal.custom.title') }}
             </k-headline>
@@ -146,7 +177,7 @@
               v-bind:key="item.uuid"
               v-bind:item="item">
             <template v-slot:text>
-              <span class="k-menu-text">{{ item.text }}</span>
+              <span class="k-menu-text">{{ item[langkey('page_title')] }}</span>
             </template>
 
             <template v-slot:fetch>
@@ -166,13 +197,13 @@
           </listModal>
         </template>
 
-        <template v-else>
+        <template v-if="modal.type === 'custom'">
           <div class="k-fieldset">
             <k-grid>
               <k-column>
                 <k-text-field
                     v-bind:label="$t('editor.label.text')"
-                    v-model="item.text">
+                    v-model="item[langkey('link_text')]">
                 </k-text-field>
               </k-column>
 
@@ -198,20 +229,19 @@
     <template v-slot:help>
       <k-grid>
         <k-column width="1/2">
-          <k-text
+          <k-help
               v-if="help"
-              theme="help"
               class="k-field-help"
               v-html="help">
-          </k-text>
+          </k-help>
         </k-column>
 
         <k-column width="1/2">
-          <k-text
-              theme="help"
+          <k-help
+              v-if="computed_levels<=5"
               class="k-field-help k-field-depth">
             {{ $t('help.depth.text') }} <strong>{{ computed_levels }}</strong>
-          </k-text>
+          </k-help>
         </k-column>
       </k-grid>
     </template>
@@ -245,7 +275,7 @@ export default {
       navigation: this.value || [],
       modal: {type: '', status: false},
       query: {content: [], breadcrumbs: []},
-      item: {url: '', text: '', popup: false}
+      item: {url: '', uuid_uri: '', text: '', popup: false}
     }
   },
   watch: {
@@ -258,24 +288,30 @@ export default {
   },
   methods: {
     modal_close() {
-      this.modal = {type: '', status: false}
+      this.modal = {type: '', status: false};
+      this.$emit('close');
     },
     modal_open(data) {
       this.modal = {type: data, status: true}
+      panel.dialog.open(this);
     },
     modal_submit() {
       if (this.modal.type === 'custom') {
+        this.item.type='custom'
         this.action_add(this.item)
-        this.item = {url: '', text: '', popup: false}
+        this.item = {url: '', uuid_uri: '', text: '', popup: false}
       }
       this.modal = {type: '', status: false}
+      this.$emit('close')
     },
     action_fetch(data) {
-      this.$api.get(this.endpoints.field + '/listings/' + data)
+      let language = this.$panel.language.code ?? 'default';
+      this.$api.get(this.endpoints.field + '/listings/' + language + '/' + data)      
           .then((response) => {
             this.query = response
           })
           .catch((error) => {
+            this.query = {content: [], breadcrumbs: []};
             console.log(error)
           })
     },
@@ -291,22 +327,50 @@ export default {
       })
     },
     action_add(data) {
-      this.navigation.push({
-        children: [],
-        id: data.id,
-        text: data.text,
-        url: data.url,
-        popup: data.popup,
-        uuid: Math.random().toString(36).substring(2, 15)
-      })
-    }
+      if (data.type=='page') {
+        let newitem = {
+          type: data.type,
+          id: data.id,
+          uuid_uri: data.uuid_uri,
+          popup: data.popup,
+          uuid: Math.random().toString(36).substring(2, 15),
+          children: [],
+        };
+        newitem[this.langkey('link_text')]=data[this.langkey('link_text')];
+        newitem[this.langkey('page_url')]=data[this.langkey('page_url')];
+        newitem[this.langkey('page_title')]=data[this.langkey('page_title')];
+        this.navigation.push(newitem);
+      }
+      else if (data.type=='custom') {
+        let newitem = {
+          type: data.type,
+          url: data.url,
+          popup: data.popup,
+          uuid: Math.random().toString(36).substring(2, 15),
+          children: [],
+        };
+        newitem[this.langkey('link_text')]=data[this.langkey('link_text')] ?? '';
+        newitem[this.langkey('link_title')]='';
+        this.navigation.push(newitem);
+      }
+      else {
+        console.warn('Invalid data.type value');
+      }
+    },
+    langkey(key) {
+      let language = this.$panel.language.code ?? 'default';
+      return language + '_' + key;
+    },
   },
   computed: {
     computed_navigation() {
       return this.navigation
     },
     computed_levels() {
-      return this.levels ? this.levels : 10
+      if (this.levels && parseInt(this.levels) && (parseInt(this.levels)<1)) {
+        return parseInt(this.levels);
+      }
+      return 10;
     },
     computed_breadcrumbs() {
       return this.query.breadcrumbs.length >= 2 ? this.query.breadcrumbs[this.query.breadcrumbs.length - 2].id : 'site'
@@ -335,7 +399,9 @@ export default {
 
     .k-dropdown-item {
       width: 180px;
-      margin-bottom: 10px;
+      height: auto;
+      padding: 8px;
+      margin-bottom: 8px;
 
       .k-button-text {
         opacity: 1;
@@ -382,8 +448,8 @@ export default {
   }
 
   .nestable-handle {
-    width: 26px;
-    height: 100%;
+    width: auto;
+    height: auto;
     display: flex;
     flex-wrap: nowrap;
     position: relative;
@@ -399,6 +465,11 @@ export default {
 
   .nestable {
     position: relative;
+    
+    .k-column {
+      margin-top: 8px;
+      margin-right: 8px;
+    }
   }
 
   .nestable .nestable-list {

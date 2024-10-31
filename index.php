@@ -7,6 +7,7 @@ Kirby::plugin('chrisbeluga/navigation', [
         'navigation' => [
             'api' => require_once __DIR__ . '/config/api.php',
             'props' => require_once __DIR__ . '/config/props.php',
+            'save' => require_once __DIR__ . '/config/save.php',
         ]
     ],
     'translations' => [
@@ -16,7 +17,7 @@ Kirby::plugin('chrisbeluga/navigation', [
         'tr' => require_once __DIR__ . '/languages/tr.php',
     ],
     'snippets' => [
-        'navigation' => __DIR__ . '/snippets/navigation.php'
+        'navigation' => __DIR__ . '/snippets/navigation.php',
     ],
     'fieldMethods' => require_once __DIR__ . '/config/methods.php',
 ]);
