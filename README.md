@@ -27,9 +27,18 @@ fields:
   navigation:
     label: Navigation
     type: navigation
-    levels: 5
+    levels: 10
     help: Description of menu or where it is used
     width: 1/2
+```
+
+Minimum blueprint:
+
+```yaml
+fields:
+  navigation:
+    label: Navigation
+    type: navigation
 ```
 
 Two Field methods are included which will output the menu regardless of how many levels deep you go:
@@ -85,7 +94,7 @@ If you would like full control of your menu and would prefer to use a foreach to
 
 ## Info
 
-Nesting limit is set as default to 5, to allow further levels adjust the levels option in the blueprint
+Nesting limit is set as default to 10, to allow different levels adjust the levels option in the blueprint
 
 ## Contributing
 

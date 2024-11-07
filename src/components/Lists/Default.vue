@@ -4,26 +4,29 @@
       <slot name="handle"/>
     </div>
     <div class="k-form-inner">
-      <k-item
-          v-bind:text="item.text"
-          v-on:action="item_action"
-          v-bind:options="[
-					{
-						icon: 'add',
-						text: active ? $t('editor.menu.close') : $t('editor.menu.edit'),
-						click: { type: 'edit' }
-					},
-					{
-						icon: 'copy',
-						text: $t('editor.menu.duplicate'),
-						click: { type: 'duplicate', item: item }
-					},
-					{
-						icon: 'trash',
-						text: $t('editor.menu.remove'),
-						click: { type: 'remove', needle: item.uuid, haystack: navigation}
-					}
-				]"
+      <k-item v-if="!navigationdisabled"
+          v-bind:text="computed_link_text(item)"
+          :buttons="[
+            {
+              icon: active ? 'collapse' : (item.error ? 'question' : (item.type=='custom' ? 'pen' : 'edit')),
+              click: function (e) { return item_action({type: 'edit'}) }
+            },
+				  ]"
+          :options="[
+            {
+              icon: 'copy',
+              text: $t('editor.menu.duplicate'),
+              click: function (e) { return item_action({ type: 'duplicate', item: item }) }
+            },
+            {
+              icon: 'trash',
+              text: $t('editor.menu.remove'),
+              click: function (e) { return item_action({ type: 'remove', needle: item.uuid, haystack: navigation}) }
+            }
+          ]"
+      />
+      <k-item v-else
+          v-bind:text="computed_link_text(item)"
       />
       <div
           ref="config"
@@ -35,16 +38,11 @@
           <slot name="dropdown_fields"/>
         </div>
         <div class="k-form-footer">
+          <span></span>
           <k-button
-              icon="remove"
+              icon="hidden"
               v-on:click="item_action({ type: 'edit' })">
             {{ $t('editor.menu.close') }}
-          </k-button>
-          <k-button
-              icon="trash"
-              theme="negative"
-              v-on:click="item_action({ type: 'remove', haystack: navigation, needle: item.uuid })">
-            {{ $t('editor.menu.remove') }}
           </k-button>
         </div>
       </div>
@@ -58,6 +56,7 @@ export default {
     item: Object,
     fields: Object,
     navigation: Array,
+    navigationdisabled: Boolean,
   },
   data() {
     return {
@@ -75,8 +74,21 @@ export default {
       if (data.type === 'duplicate') {
         this.$emit('action_add', data.item)
       }
-    }
-  }
+    },
+    langkey(key) {
+      let language = this.$panel.language.code ?? 'default';
+      return language + '_' + key;
+    },
+    computed_link_text(item) {
+      if (item.type === 'page') {
+        if (item[this.langkey('link_text')] === '') {
+          // if link text of a page is empty, use page title
+          return item[this.langkey('page_title')];
+        }
+      }
+      return item[this.langkey('link_text')];
+    },
+  },
 }
 </script>
 
@@ -100,6 +112,7 @@ export default {
       background: #e6e6e6;
       border: 1px solid #ccc;
       flex-direction: column;
+      margin-top: 5px;
 
       .k-form-group {
         flex-grow: 1;
