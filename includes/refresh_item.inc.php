@@ -20,13 +20,13 @@ use Kirby\Uuid\Uuids;
 */
 
 // Use anonymous recursive function to process child items
-$refresh_item = function($item, $kirby) use (&$refresh_item) {
+$refresh_item = function($item) use (&$refresh_item) {
   if (!is_array($item)) {
     throw new Exception('Unexpected data found in the navigation field');
   }
-  if ($multilang = $kirby->languages()->isNotEmpty()) {
-    $language_code=$kirby->language()->code();
-    $default_language_code=$kirby->defaultLanguage()->code();
+  if ($multilang = kirby()->languages()->isNotEmpty()) {
+    $language_code=kirby()->language()->code();
+    $default_language_code=kirby()->defaultLanguage()->code();
   }
   else {
     $language_code='default';
@@ -78,12 +78,12 @@ $refresh_item = function($item, $kirby) use (&$refresh_item) {
     // Fetch page by the permanent 'uuid_uri', if possible, otherwise by 'id'
     $page=null;
     if (!empty($item['uuid_uri']) && Uuids::enabled()) {
-      $page=$kirby->page($item['uuid_uri']);
+      $page=kirby()->page($item['uuid_uri']);
       // Refresh the 'id' to handle any changes
       $item['id'] = $page->id();
     }
     if (!$page) {
-      if ($page=$kirby->page($item['id'])) {
+      if ($page=kirby()->page($item['id'])) {
         if (empty($item['uuid_uri']) && Uuids::enabled()) {
           // Add a 'uuid_uri' value, that did not exist in the old plugin version
           $item['uuid_uri'] = $page->uuid()->toString();
@@ -105,7 +105,7 @@ $refresh_item = function($item, $kirby) use (&$refresh_item) {
 
       // Adjust the old url to the current site url using the latest known 'id' value
       if ($multilang) {
-        $kirby->currentLanguage()->url() . '/' . $item['id'];
+        kirby()->currentLanguage()->url() . '/' . $item['id'];
       }
       else {
         $item[$language_code . '_page_url']=Uri::current(['path' => $item['id'], 'query' => '',])->toString();
@@ -135,14 +135,13 @@ $refresh_item = function($item, $kirby) use (&$refresh_item) {
   // refresh child items, if any
   if (!empty($item['children'])) {
     foreach (array_keys($item['children']) as $key) {
-      $item['children'][$key]=$refresh_item($item['children'][$key], $kirby);
+      $item['children'][$key]=$refresh_item($item['children'][$key]);
     }
   }
   return $item;
 };
 
 $refresh_items = function($items, $field_name, $field_model) use ($refresh_item) {
-  $kirby=kirby();
   // If 'multilang' is set in the field data, then the real data is stored
   // in external yaml file, so that it can be shared between languages
   // It is better to be prepared that the 'multilang' field option is
@@ -158,7 +157,7 @@ $refresh_items = function($items, $field_name, $field_model) use ($refresh_item)
   //   secondary language in Panel.
   // - and all kinds of similar cases.
   //
-  $multilang_site=$kirby->languages()->isNotEmpty();
+  $multilang_site=kirby()->languages()->isNotEmpty();
   $multilang_blueprint=FALSE; 
   $multilang_field=FALSE;
   $multilang_load=FALSE;
@@ -184,14 +183,14 @@ $refresh_items = function($items, $field_name, $field_model) use ($refresh_item)
     // - if site is multilang, and this is secondary language: 
     //   load data from the primary language
     // - if site has no languages: use $items
-    if ($kirby->multilang()) {
-      if ($kirby->language()->isDefault()) {
+    if (kirby()->multilang()) {
+      if (kirby()->language()->isDefault()) {
         // good, this is easy!
       }
       else {
         // The field data should be loaded from the primary language.
         $model=$field_model;
-        $defaultContentTranslation=$model->translation($kirby->defaultLanguage()->code());
+        $defaultContentTranslation=$model->translation(kirby()->defaultLanguage()->code());
         $defaultContent=$defaultContentTranslation->content();
         $fieldContent=$defaultContent[$field_name];
         $items=Yaml::decode($fieldContent);
@@ -229,7 +228,7 @@ $refresh_items = function($items, $field_name, $field_model) use ($refresh_item)
 
   if (is_array($items) && $items) {
     foreach (array_keys($items) as $key) {
-      $items[$key]=$refresh_item($items[$key], $kirby);
+      $items[$key]=$refresh_item($items[$key]);
     }
   }
   return $items;
