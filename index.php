@@ -18,6 +18,7 @@ Kirby::plugin('chrisbeluga/navigation', [
     ],
     'snippets' => [
         'navigation' => __DIR__ . '/snippets/navigation.php',
+        'navigation_item' => __DIR__ . '/snippets/navigation_item.php',
     ],
     'fieldMethods' => require_once __DIR__ . '/config/methods.php',
 ]);

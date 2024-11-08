@@ -10,14 +10,12 @@ return function ($items) {
       throw new Exception('Unexpected data found in the navigation field while saving');
     }
     if ($item['type'] === 'page') {
+      // Do not store 'count' value (coming from api.php)
+      unset($item['count']);
       // The primary way of page identification is by 'uuid_uri',
       // if not available, then by 'id'.
       // Although page url and page title are saved here,
-      // these values will be refreshed when the field data is loaded,
-      // 
-
-      // Do not store 'count' value (coming from api.php)
-      unset($item['count']);
+      // these values will be refreshed when the field data is loaded.
     }
     // Remove the 'error' value, it will be set again when loading field values
     unset($item['error']);
