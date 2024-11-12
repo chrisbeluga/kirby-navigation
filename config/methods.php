@@ -1,6 +1,9 @@
 <?php
-use Kirby\Uuid\Uuids;
+use Kirby\Data\Yaml;
 return [
+  // This method is the preferred way to get all the link items
+  // (with all child links) as a nested array.
+  // Do not use $field->toArray() in case of the navigation field.
   'toNavigationArray' => function ($field) {
     // Refresh items to get the current multilang URL and page titles
     require __DIR__ . '/../includes/refresh_item.inc.php';
@@ -62,6 +65,8 @@ return [
     }
     return $items;
   },
+  // This method is the preferred way to output the markup of a
+  // navigation field from your template files.
   'toNavigationMarkup' => function ($field) {
     // Refresh items to get the current multilang URL and page titles
     // and set item values needed for markup generation
@@ -70,5 +75,34 @@ return [
     return snippet('navigation', [
       'children' => $items
     ]);
-  }
+  },
+  // This method is provided only for compatibility reasons,
+  // to help the users of older plugin versions
+  'toNavigationStructure' => function ($field) {
+    // Refresh items to get the current multilang URL and page titles
+    // and set item values needed for markup generation
+    $items=$field->toNavigationArray();
+    // Use anonymous recursive function to process child items
+    $process_item = function($key, $item) use (&$process_item) {
+      // Preserve any original 'id' value as 'link_id'
+      $items['link_id']=$item['id'] ?? '';
+      // Overwrite the 'id' (slug) value in link items,
+      // because the Structure class also uses it as index
+      $item['id']=$key;
+      // process child items as well, if any
+      if (!empty($item['children'])) {
+        foreach (array_keys($item['children']) as $child_key) {
+          $item['children'][$child_key]=$process_item($child_key, $item['children'][$child_key]);
+        }
+      }
+      return $item;
+    };
+    if (is_array($items) && $items) {
+      foreach ($items as $key => $item) {
+        $items[$key]=$process_item($key, $item);
+      }
+    }
+    $modified_field=$field->value(Yaml::encode($items));
+    return $modified_field->toStructure();
+  },
 ];
