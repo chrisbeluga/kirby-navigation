@@ -9,6 +9,7 @@ A Navigation field for [Kirby CMS](https://getkirby.com).
 ## Installation & Usage
 
 Copy plugin files to your plugin's directory or install via composer with `composer require belugadigital/kirby-navigation`
+Note that this Composer package name (belugadigital/kirby-navigation) differs from the GitHub repository URL (chrisbeluga/kirby-navigation).
 
 ## Kirby compatibility table
 
@@ -68,10 +69,42 @@ Or when using Kirby Query language
 ```
 
 If you want full control over your menu and want to customize the markup, you can copy the navigation.php and navigation_item.php files from the plugin's snippets directory to your /site/snippets directory, and customize them there.
-For example, to add class="navigation-item navigation-item-X" to each link item, where X is the depth level of the given link, you can add the following line to your copy of navigation_item.php: 
+For example, to add class="navigation-item navigation-item-X" to each link item, where X is the depth level of the given link, you can add the following line to your copy of navigation_item.php:
 
 ```php
 $attributes['class']='navigation-item navigation-item-' . $depth;
+```
+
+The foreach info looks like this (toNavigationStructure instead of
+toStructure):
+
+If you prefer to use a foreach to create the menu, or if you are
+upgrading from an older version of this plugin, the foreach loop could
+look something like this:
+
+```php
+  <?php if ($items=$site->navigation()->toNavigationStructure()): ?>
+    <ul>
+      <?php foreach($items as $item): ?>
+        <li>
+          <a href="<?php echo $item->url(); ?>" <?php e($item->isOpen(), 'aria-current') ?>>
+            <?php echo Str::esc($item->text(), 'html') ?>
+          </a>
+          <?php if($item->children()->isNotEmpty()): ?>
+            <ul>
+              <?php foreach($item->children()->toStructure() as $child): ?>
+                <li>
+                  <a href="<?php echo $child->url() ?>">
+                    <?php echo Str::esc($child->text(), 'html') ?>
+                  </a>
+                </li>
+              <?php endforeach ?>
+            </ul>
+          <?php endif ?>
+        </li>
+      <?php endforeach ?>
+    </ul>
+  <?php endif ?>
 ```
 
 ## Nesting limit
