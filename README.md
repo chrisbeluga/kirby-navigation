@@ -69,18 +69,14 @@ Or when using Kirby Query language
 ```
 
 If you want full control over your menu and want to customize the markup, you can copy the navigation.php and navigation_item.php files from the plugin's snippets directory to your /site/snippets directory, and customize them there.
-For example, to add class="navigation-item navigation-item-X" to each link item, where X is the depth level of the given link, you can add the following line to your copy of navigation_item.php:
+This is the recommended way of markup customization.
+For example, to add class="navigation-item navigation-item-X" to each link item, where X is the depth level of the given link, you can add the following line to your copy of navigation_item.php: 
 
 ```php
 $attributes['class']='navigation-item navigation-item-' . $depth;
 ```
 
-The foreach info looks like this (toNavigationStructure instead of
-toStructure):
-
-If you prefer to use a foreach to create the menu, or if you are
-upgrading from an older version of this plugin, the foreach loop could
-look something like this:
+If you prefer to use a foreach to create the menu, or if you are upgrading from an older version of this plugin, the foreach loop could look something like this:
 
 ```php
   <?php if ($items=$site->navigation()->toNavigationStructure()): ?>
@@ -106,6 +102,7 @@ look something like this:
     </ul>
   <?php endif ?>
 ```
+
 
 ## Nesting limit
 
