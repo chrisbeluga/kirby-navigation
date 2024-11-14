@@ -83,7 +83,7 @@ If you prefer to use a foreach to create the menu, or if you are upgrading from 
     <ul>
       <?php foreach($items as $item): ?>
         <li>
-          <a href="<?php echo $item->url(); ?>" <?php e($item->isOpen(), 'aria-current') ?>>
+          <a href="<?php echo $item->url(); ?>" <?php e($item->isOpen(), 'aria-current="page"') ?>>
             <?php echo Str::esc($item->text(), 'html') ?>
           </a>
           <?php if($item->children()->isNotEmpty()): ?>
@@ -118,7 +118,7 @@ This means that if you simply add 5 Kirby pages to the field in multilang mode a
 
 The plugin allows you to add "Kirby Pages" and "Custom Links" to the navigation field. For "Kirby Pages", the page title will be the default value of the link text, if no custom link text is entered. This means that if you simply add 5 Kirby pages to the field in multilang mode and don't edit the links, you will see the language-specific page title and page URL in the generated markup.
 
-## What is new in version 4.0?
+## What's new in version 4.0?
 
 Changes worth mentioning:
 - It works with Kirby 4
@@ -130,6 +130,34 @@ Changes worth mentioning:
 - UI: The 'id' and 'url' values of 'Kirby page' links are no longer editable.
 - Markup: the current language and the actual values of the page title and page URL are taken into account when generating the markup for the field in the template.
 - Markup: link text and link attributes are properly escaped to prevent potential issues
+
+## What's new in version 4.1?
+
+New features:
+- The 'class' and 'target' values of links are now editable
+- The 'anchor' values of 'Kirby page' links are now editable
+- The 'title' textfield can be hidden, if you do not need it
+- The 'popup' toggle can be hidden, if you do not need it
+
+Different sites have different needs, so the editable fields are configurable via /site/config/config.php.
+
+Here are the available options that you can use in your config.php, and their default values:
+
+```php
+return [
+  'chrisbeluga.navigation.edit_title' => TRUE,
+  'chrisbeluga.navigation.edit_popup' => TRUE,
+  'chrisbeluga.navigation.edit_target' => FALSE,
+  'chrisbeluga.navigation.edit_class' => FALSE,
+  'chrisbeluga.navigation.edit_anchor' => FALSE,
+];
+```
+
+For example, if you want to customize the 'target' value of your links, then set 'chrisbeluga.navigation.edit_target' to TRUE. This will replace the simple 'Popup' toggle with a 'Target' textfield, allowing you to set a link target, such as '_parent' or '_top'.
+
+If you want to add an anchor value to your 'Kirby page' links, for example to have an URL such as /en/contact#locations, set 'chrisbeluga.navigation.edit_anchor' to TRUE. You can enter 'locations' as anchor, and '#locations' will be appended to the page URL of the link.
+
+If you use the recommended way to output the navigation markup from your template (such as $site->navigation()->toNavigationMarkup() in case of a field called 'navigation'), then any target, class and anchor values will be included automatically in the generated markup.
 
 ## Contributing
 

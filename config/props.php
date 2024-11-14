@@ -35,4 +35,25 @@ return [
     }
     return $items;
   },
+  // Notify the Vue code which textfields should be editable by default.
+  // Notes:
+  // - The 'Popup' will be automatically hidden, if 'Target' is visible
+  // - If a certain value is set in the field, then Vue will show 
+  //   the editable textfield even if the corresponding option is false
+  // - These options can be set in /site/config/config.php
+  'edit_title' => function() {
+    return (bool) option('chrisbeluga.navigation.edit_title', true);
+  },
+  'edit_popup' => function() {
+    return (bool) option('chrisbeluga.navigation.edit_popup', true);
+  },
+  'edit_target' => function() {
+    return (bool) option('chrisbeluga.navigation.edit_target', false);
+  },
+  'edit_class' => function() {
+    return (bool) option('chrisbeluga.navigation.edit_class', false);
+  },
+  'edit_anchor' => function() {
+    return (bool) option('chrisbeluga.navigation.edit_anchor', false);
+  }
 ];

@@ -6,7 +6,8 @@
  * Important variables:
  * string $url  Link url
  * string $text  Link text
- * array $attributes Link attributes (e.g. title, target, aria-current)
+ * string $anchor  Link anchor
+ * array $attributes  Link attributes (title, target, class, aria-current)
  * 
  * Other variables:
  * string $type Link type (usually 'page' or 'custom')
@@ -27,5 +28,5 @@
 ?>
 <?php
 use Kirby\Cms\Html;
-echo Html::tag('a', $text ?? '', array_merge(['href' => $url], $attributes ?? []));
+echo Html::tag('a', $text ?? '', array_merge(['href' => ($url ?? '') . ($anchor ?? '')], $attributes ?? []));
 

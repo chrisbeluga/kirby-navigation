@@ -85,18 +85,39 @@
                 </k-text-field>
               </k-column>
 
-              <k-column width="1/2">
+              <k-column width="1/2" v-if="title_is_editable(item)">
                 <k-text-field
                     v-bind:label="$t('editor.label.title')"
                     v-model="item[langkey('link_title')]">
                 </k-text-field>
               </k-column>
 
+              <k-column width="1/2" v-if="anchor_is_editable(item)">
+                <k-text-field
+                    v-bind:label="$t('editor.label.anchor')"
+                    v-model="item[langkey('link_anchor')]">
+                </k-text-field>
+              </k-column>
 
-              <k-column width="1/2">
+              <k-column width="1/2" v-if="class_is_editable(item)">
+                <k-text-field
+                    v-bind:label="$t('editor.label.class')"
+                    v-model="item.class">
+                </k-text-field>
+              </k-column>
+
+              <k-column width="1/2" v-if="target_is_editable(item)">
+                <k-text-field
+                    v-bind:label="$t('editor.label.target') + ' (_blank, _self, _parent, _top, ...)'"
+                    v-model="item.target">
+                </k-text-field>
+              </k-column>
+
+              <k-column width="1/2" v-if="popup_is_editable(item)">
                 <k-toggle-field
-                    v-bind:label="$t('editor.label.popup')"
-                    v-model="item.popup">
+                    @input="item.target=$event ? '_blank' : ''"
+                    :value="(item.target=='_blank' ? true : false)"
+                    v-bind:label="$t('editor.label.popup')">
                 </k-toggle-field>
               </k-column>
             </k-grid>
@@ -109,7 +130,7 @@
                 </k-text-field>
               </k-column>
 
-              <k-column width="1/2">
+              <k-column width="1/2" v-if="title_is_editable(item)">
                 <k-text-field
                     v-bind:label="$t('editor.label.title')"
                     v-model="item[langkey('link_title')]">
@@ -123,10 +144,25 @@
                 </k-text-field>
               </k-column>
 
-              <k-column width="1/2">
+              <k-column width="1/2" v-if="class_is_editable(item)">
+                <k-text-field
+                    v-bind:label="$t('editor.label.class')"
+                    v-model="item.class">
+                </k-text-field>
+              </k-column>
+
+              <k-column width="1/2" v-if="target_is_editable(item)">
+                <k-text-field
+                    v-bind:label="$t('editor.label.target') + ' (_blank, _self, _parent, _top, ...)'"
+                    v-model="item.target">
+                </k-text-field>
+              </k-column>
+
+              <k-column width="1/2" v-if="popup_is_editable(item)">
                 <k-toggle-field
-                    v-bind:label="$t('editor.label.popup')"
-                    v-model="item.popup">
+                    @input="item.target=$event ? '_blank' : ''"
+                    :value="(item.target=='_blank' ? true : false)"
+                    v-bind:label="$t('editor.label.popup')">
                 </k-toggle-field>
               </k-column>
 
@@ -214,12 +250,21 @@
                 </k-text-field>
               </k-column>
 
-              <k-column>
+              <k-column v-if="popup_is_editable(item)">
                 <k-toggle-field
-                    v-bind:label="$t('editor.label.popup')"
-                    v-model="item.popup">
+                    @input="item.target=$event ? '_blank' : ''"
+                    :value="(item.target=='_blank' ? true : false)"
+                    v-bind:label="$t('editor.label.popup')">
                 </k-toggle-field>
               </k-column>
+
+              <k-column v-if="target_is_editable(item)">
+                <k-text-field
+                    v-bind:label="$t('editor.label.target') + ' (_blank, _self, _parent, _top, ...)'"
+                    v-model="item.target">
+                </k-text-field>
+              </k-column>
+
             </k-grid>
           </div>
         </template>
@@ -261,6 +306,11 @@ export default {
     value: Array,
     label: String,
     levels: Number,
+    edit_title: Boolean,
+    edit_popup: Boolean,
+    edit_target: Boolean,
+    edit_class: Boolean,
+    edit_anchor: Boolean,
     disabled: Boolean,
     required: Boolean,
     endpoints: Object,
@@ -275,7 +325,7 @@ export default {
       navigation: this.value || [],
       modal: {type: '', status: false},
       query: {content: [], breadcrumbs: []},
-      item: {url: '', uuid_uri: '', text: '', popup: false}
+      item: {url: '', uuid_uri: '', text: '', target: ''}
     }
   },
   watch: {
@@ -299,7 +349,7 @@ export default {
       if (this.modal.type === 'custom') {
         this.item.type='custom'
         this.action_add(this.item)
-        this.item = {url: '', uuid_uri: '', text: '', popup: false}
+        this.item = {url: '', uuid_uri: '', text: '', target: ''}
       }
       this.modal = {type: '', status: false}
       this.$emit('close')
@@ -332,7 +382,7 @@ export default {
           type: data.type,
           id: data.id,
           uuid_uri: data.uuid_uri,
-          popup: data.popup,
+          target: '',
           uuid: Math.random().toString(36).substring(2, 15),
           children: [],
         };
@@ -345,7 +395,7 @@ export default {
         let newitem = {
           type: data.type,
           url: data.url,
-          popup: data.popup,
+          target: data.popup ? '_blank' : data.target,
           uuid: Math.random().toString(36).substring(2, 15),
           children: [],
         };
@@ -361,6 +411,50 @@ export default {
       let language = this.$panel.language.code ?? 'default';
       return language + '_' + key;
     },
+    title_is_editable(item) {
+      if (typeof item[this.langkey('link_title')] === 'string') {
+        if (item[this.langkey('link_title')]!=='') {
+          return true;
+        }
+      }
+      return this.edit_title;
+    },
+    anchor_is_editable(item) {
+      if (typeof item[this.langkey('link_anchor')] === 'string') {
+        if (item[this.langkey('link_anchor')]!=='') {
+          return true;
+        }
+      }
+      return this.edit_anchor;
+    },
+    popup_is_editable(item) {
+      // always hide popup, if target is enabled, or target contains data
+      if (typeof item.target === 'string') {
+        if ((item.target!=='') && (item.target!=='_blank')) {
+          return false;
+        }
+      }
+      if (this.edit_target) {
+        return false;
+      }
+      return this.edit_popup;
+    },
+    target_is_editable(item) {
+      if (typeof item.target === 'string') {
+        if ((item.target!=='') && (item.target!=='_blank')) {
+          return true;
+        }
+      }
+      return this.edit_target;
+    },
+    class_is_editable(item) {
+      if (typeof item.class === 'string') {
+        if (item.class!=='') {
+          return true;
+        }
+      }
+      return this.edit_class;
+    }
   },
   computed: {
     computed_navigation() {
@@ -374,7 +468,7 @@ export default {
     },
     computed_breadcrumbs() {
       return this.query.breadcrumbs.length >= 2 ? this.query.breadcrumbs[this.query.breadcrumbs.length - 2].id : 'site'
-    }
+    },
   },
   mounted() {
     this.action_fetch('site');

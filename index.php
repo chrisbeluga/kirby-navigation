@@ -21,4 +21,11 @@ Kirby::plugin('chrisbeluga/navigation', [
         'navigation_item' => __DIR__ . '/snippets/navigation_item.php',
     ],
     'fieldMethods' => require_once __DIR__ . '/config/methods.php',
+    'options' => [
+        'edit_title' => TRUE,
+        'edit_popup' => TRUE,
+        'edit_target' => FALSE,
+        'edit_class' => FALSE,
+        'edit_anchor' => FALSE,
+    ],
 ]);

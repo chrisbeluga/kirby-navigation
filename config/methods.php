@@ -13,17 +13,23 @@ return [
     // Use anonymous recursive function to process child items
     $process_item = function($item, $depth=1) use (&$process_item, $lang_code) {
       $item['depth']=$depth;
-      // To help markup generation, set 'url', 'text' and 'title'
-      // according to the current language
+      // To help markup generation, set 'url', 'text', 'title'
+      // and the optional 'anchor' according to the current language
       if ($item['type']=='page') {
         $item['url']=$item[$lang_code . '_page_url'];
         $item['text']=$item[$lang_code . '_link_text'];
         $item['title']=$item[$lang_code . '_link_title'];
+        if (isset($item[$lang_code . '_link_anchor'])) {
+          $item['anchor']='#' . $item[$lang_code . '_link_anchor'];
+        }
+        else {
+          $item['anchor']='';
+        }
         if ($item['text']=='') {
-        $item['text']=$item[$lang_code . '_page_title'];
+          $item['text']=$item[$lang_code . '_page_title'];
         }
         if ($item['title']=='') {
-        $item['title']=$item[$lang_code . '_page_title'];
+          $item['title']=$item[$lang_code . '_page_title'];
         }
       }
       elseif ($item['type']=='custom') {
@@ -32,6 +38,7 @@ return [
       }
       else {
         $item['error']=TRUE;
+        return $item;
       }
       if ($item['title']==$item['text']) {
         // No need to have a title
@@ -44,8 +51,11 @@ return [
       if ($item['title']!='') {
         $item['attributes']['title']=$item['title'];
       }
-      if (!empty($item['popup'])) {
-        $item['attributes']['target']='_blank';
+      if (isset($item['class']) && ($item['class']!=='')) {
+        $item['attributes']['class']=$item['class'];
+      }
+      if (isset($item['target']) && ($item['target']!='')) {
+        $item['attributes']['target']=$item['target'];
       }
       if ($item['url'] === kirby()->url('current')) {
         $item['attributes']['aria-current']='page';
