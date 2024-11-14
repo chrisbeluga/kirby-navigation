@@ -66,8 +66,8 @@ return function () {
               // Default values of page links that prop.php also provides
               $language_code . '_link_text' => '',
               $language_code . '_link_title' => '',
-              'popup' => false,
               'children' => [],
+              'target' => '',
               // Temporary helper values that will not be saved
               'count' => $item->index()->count(),
             ]);

@@ -16,7 +16,7 @@ use Kirby\Uuid\Uuids;
 * functions, when needed.
 *
 * A secondary purpose of these functions is to make multilanguage
-* navigation field editing as convinient as possible.
+* navigation field editing as convenient as possible.
 */
 
 // Use anonymous recursive function to process child items
@@ -118,6 +118,11 @@ $refresh_item = function($item) use (&$refresh_item) {
     if (!isset($item[$language_code . '_link_title'])) {
       $item[$language_code . '_link_title']='';
     }
+    if (option('chrisbeluga.navigation.edit_anchor')) {
+      if (!isset($item[$language_code . '_link_anchor'])) {
+        $item[$language_code . '_link_anchor']='';
+      }
+    }
   }
   elseif ($item['type']=='custom') {
     // Validate the URL
@@ -132,6 +137,16 @@ $refresh_item = function($item) use (&$refresh_item) {
       $item[$language_code . '_link_title']='';
     }
   }
+  // Handle the popup -> target transition to remain compatible.
+  // Previous plugin versions used the 'popup' boolean value.
+  // The new version uses the 'target' string value.
+  // The new version uses the 'Popup' toggle UI by default,
+  // but provides the edit_target option to switch to 'Target' string UI.
+  if (isset($item['popup']) && !isset($item['target'])) {
+    $item['target']=$item['popup'] ? '_blank' : '';
+  }
+  unset($item['popup']);
+
   // refresh child items, if any
   if (!empty($item['children'])) {
     foreach (array_keys($item['children']) as $key) {
