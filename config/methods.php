@@ -89,13 +89,10 @@ return [
   // This method is provided only for compatibility reasons,
   // to help the users of older plugin versions
   'toNavigationStructure' => function ($field) {
-    // Refresh items to get the current multilang URL and page titles
-    // and set item values needed for markup generation
-    $items=$field->toNavigationArray();
     // Use anonymous recursive function to process child items
     $process_item = function($key, $item) use (&$process_item) {
       // Preserve any original 'id' value as 'link_id'
-      $items['link_id']=$item['id'] ?? '';
+      $item['link_id']=$item['id'] ?? '';
       // Overwrite the 'id' (slug) value in link items,
       // because the Structure class also uses it as index
       $item['id']=$key;
@@ -107,6 +104,9 @@ return [
       }
       return $item;
     };
+    // Refresh items to get the current multilang URL and page titles
+    // and set item values needed for markup generation
+    $items=$field->toNavigationArray();
     if (is_array($items) && $items) {
       foreach ($items as $key => $item) {
         $items[$key]=$process_item($key, $item);
