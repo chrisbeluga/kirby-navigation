@@ -78,9 +78,10 @@ $refresh_item = function($item) use (&$refresh_item) {
     // Fetch page by the permanent 'uuid_uri', if possible, otherwise by 'id'
     $page=null;
     if (!empty($item['uuid_uri']) && Uuids::enabled()) {
-      $page=kirby()->page($item['uuid_uri']);
-      // Refresh the 'id' to handle any changes
-      $item['id'] = $page->id();
+      if ($page=kirby()->page($item['uuid_uri'])) {
+        // Refresh the 'id' to handle any changes
+        $item['id'] = $page->id();
+      }
     }
     if (!$page) {
       if ($page=kirby()->page($item['id'])) {
