@@ -61,9 +61,14 @@ return [
         $item['attributes']['aria-current']='page';
       }
       // process child items as well, if any
+      $item['isChildOpen']=FALSE;
       if (!empty($item['children'])) {
         foreach (array_keys($item['children']) as $key) {
           $item['children'][$key]=$process_item($item['children'][$key], $depth+1);
+          // keep track whether any child item is active
+          if (!empty($item['children'][$key]['isOpen']) || !empty($item['children'][$key]['isChildOpen'])) {
+            $item['isChildOpen']=TRUE;
+          }
         }
       }
       return $item;

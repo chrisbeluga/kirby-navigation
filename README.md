@@ -83,14 +83,14 @@ If you prefer to use a foreach to create the menu, or if you are upgrading from 
     <ul>
       <?php foreach($items as $item): ?>
         <li>
-          <a href="<?php echo $item->url(); ?>" <?php e($item->isOpen(), 'aria-current="page"') ?>>
+          <a href="<?php echo $item->url(); ?>" <?php e($item->isOpen()->value(), 'aria-current="page"') ?> <?php e($item->isChildOpen()->value(), 'class="active"') ?>>
             <?php echo Str::esc($item->text(), 'html') ?>
           </a>
           <?php if($item->children()->isNotEmpty()): ?>
             <ul>
               <?php foreach($item->children()->toStructure() as $child): ?>
                 <li>
-                  <a href="<?php echo $child->url() ?>">
+                  <a href="<?php echo $child->url() ?>" <?php e($child->isOpen()->value(), 'aria-current="page"') ?>>
                     <?php echo Str::esc($child->text(), 'html') ?>
                   </a>
                 </li>
@@ -103,6 +103,7 @@ If you prefer to use a foreach to create the menu, or if you are upgrading from 
   <?php endif ?>
 ```
 
+As you can see, $item->isOpen()->value() can be used in this foreach() to check whether the given menu item is the current page, and $item->isChildOpen()->value() can be used to check whether any of the child menu items is the current page.
 
 ## Nesting limit
 
