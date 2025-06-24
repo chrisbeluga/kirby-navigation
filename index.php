@@ -1,7 +1,5 @@
 <?php
 
-use Kirby\Cms\App as Kirby;
-
 Kirby::plugin('chrisbeluga/navigation', [
     'fields' => [
         'navigation' => [

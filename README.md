@@ -15,6 +15,7 @@ Note that this Composer package name (belugadigital/kirby-navigation) differs fr
 
 | Kirby version | Compatible plugin version |
 |:--------------|:--------------------------|
+| ^5.0          | ^5.0                      |
 | ^4.0          | ^4.0                      |
 | ^3.7          | ^3.0                      |
 | ^3.6          | ^2.0                      |
