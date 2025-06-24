@@ -16,7 +16,6 @@ Note that this Composer package name (belugadigital/kirby-navigation) differs fr
 | Kirby version | Compatible plugin version |
 |:--------------|:--------------------------|
 | ^5.0          | ^5.0                      |
-| ^4.8          | ^4.2                      |
 | ^4.0          | ^4.0                      |
 | ^3.7          | ^3.0                      |
 | ^3.6          | ^2.0                      |
@@ -72,7 +71,7 @@ Or when using Kirby Query language
 
 If you want full control over your menu and want to customize the markup, you can copy the navigation.php and navigation_item.php files from the plugin's snippets directory to your /site/snippets directory, and customize them there.
 This is the recommended way of markup customization.
-For example, to add class="navigation-item navigation-item-X" to each link item, where X is the depth level of the given link, you can add the following line to your copy of navigation_item.php: 
+For example, to add class="navigation-item navigation-item-X" to each link item, where X is the depth level of the given link, you can add the following line to your copy of navigation_item.php:
 
 ```php
 $attributes['class']='navigation-item navigation-item-' . $depth;

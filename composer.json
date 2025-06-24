@@ -1,6 +1,6 @@
 {
   "name": "chrisbeluga/kirby-navigation",
-  "description": "Kirby 4 field for hierarchical menus with drag & drop level indentation.",
+  "description": "Kirby 5 field for hierarchical menus with drag & drop level indentation.",
   "type": "kirby-plugin",
   "keywords": [
     "kirby-plugin",
@@ -8,7 +8,7 @@
     "menu",
     "field"
   ],
-  "version": "4.2.0",
+  "version": "5.0.0",
   "license": "MIT",
   "homepage": "https://github.com/chrisbeluga/kirby-navigation",
   "authors": [
@@ -28,7 +28,7 @@
     {
       "name": "Immo Seebörger",
       "homepage": "https://diesachbearbeiter.de/"
-    }    
+    }
   ],
   "require": {
 		"php": ">=8.1.0 <8.5.0",
