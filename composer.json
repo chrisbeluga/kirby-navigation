@@ -2,7 +2,13 @@
   "name": "chrisbeluga/kirby-navigation",
   "description": "Kirby 4 field for hierarchical menus with drag & drop level indentation.",
   "type": "kirby-plugin",
-  "version": "4.1.3",
+  "keywords": [
+    "kirby-plugin",
+    "navigation",
+    "menu",
+    "field"
+  ],
+  "version": "4.2.0",
   "license": "MIT",
   "homepage": "https://github.com/chrisbeluga/kirby-navigation",
   "authors": [
@@ -25,10 +31,15 @@
     }    
   ],
   "require": {
+		"php": ">=8.1.0 <8.5.0",
+		"getkirby/cms": "^4.0 || ^5.0",
     "getkirby/composer-installer": "^1.2"
   },
   "config": {
-    "optimize-autoloader": true
+    "optimize-autoloader": true,
+    "allow-plugins": {
+			"getkirby/composer-installer": true
+		}
   },
   "extra": {
     "installer-name": "kirby-navigation"
