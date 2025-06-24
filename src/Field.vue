@@ -15,8 +15,7 @@
           {{ $t('menu.link.add') }}
         </k-button>
         <k-dropdown-content
-            ref="menu"
-            align="right">
+            ref="menu">
           <k-dropdown-item v-on:click="modal_open('default')">
 						<span class="k-menu-title">
 							{{ $t('menu.link.title') }}
