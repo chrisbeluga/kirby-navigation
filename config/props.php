@@ -31,7 +31,8 @@ return [
       // Add a 'save' item. When the 'props' values are sent to Panel,
       // the Field.vue will hide this item, but it will send it back,
       // and then the props.php will detect it, and save.php will ignore it.
-      $items[]=['type' => 'save', 'uuid' => uniqid(), 'children' => []];
+      // Use a constant uuid value for this item, to avoid diff problems
+      $items[]=['type' => 'save', 'uuid' => 'save', 'children' => []];
     }
     return $items;
   },
