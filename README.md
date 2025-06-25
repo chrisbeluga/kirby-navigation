@@ -16,6 +16,7 @@ Note that this Composer package name (belugadigital/kirby-navigation) differs fr
 | Kirby version | Compatible plugin version |
 |:--------------|:--------------------------|
 | ^5.0          | ^5.0                      |
+| ^4.8          | ^4.2                      |
 | ^4.0          | ^4.0                      |
 | ^3.7          | ^3.0                      |
 | ^3.6          | ^2.0                      |
@@ -160,6 +161,10 @@ For example, if you want to customize the 'target' value of your links, then set
 If you want to add an anchor value to your 'Kirby page' links, for example to have an URL such as /en/contact#locations, set 'chrisbeluga.navigation.edit_anchor' to TRUE. You can enter 'locations' as anchor, and '#locations' will be appended to the page URL of the link.
 
 If you use the recommended way to output the navigation markup from your template (such as $site->navigation()->toNavigationMarkup() in case of a field called 'navigation'), then any target, class and anchor values will be included automatically in the generated markup.
+
+## What's new in version 5.0?
+
+Works with Kirby 5.0
 
 ## Contributing
 
