@@ -3,12 +3,14 @@
   "description": "Kirby 5 field for hierarchical menus with drag & drop level indentation.",
   "type": "kirby-plugin",
   "keywords": [
+    "kirby",
+    "kirby-cms",
     "kirby-plugin",
     "navigation",
     "menu",
     "field"
   ],
-  "version": "5.0.1",
+  "version": "5.0.2",
   "license": "MIT",
   "homepage": "https://github.com/chrisbeluga/kirby-navigation",
   "authors": [
