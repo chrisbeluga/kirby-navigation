@@ -333,6 +333,14 @@ export default {
         this.$emit('input', this.navigation)
       },
       deep: true
+    },
+    panel_content_has_diff() {
+      if (!this.panel_content_has_diff) {
+        // If previously detected changes disappeared,
+        // probably because of the "Discard" button in Panel,
+        // then reset the navigation items to the initial values.
+        this.navigation = this.value;
+      }
     }
   },
   methods: {
@@ -468,6 +476,9 @@ export default {
     computed_breadcrumbs() {
       return this.query.breadcrumbs.length >= 2 ? this.query.breadcrumbs[this.query.breadcrumbs.length - 2].id : 'site'
     },
+		panel_content_has_diff() {
+			return this.$panel.content.hasDiff();
+		},
   },
   mounted() {
     this.action_fetch('site');
