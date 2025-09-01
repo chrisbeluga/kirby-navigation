@@ -11,7 +11,7 @@
               icon: active ? 'collapse' : (item.error ? 'question' : (item.type=='custom' ? 'pen' : 'edit')),
               click: function (e) { return item_action({type: 'edit'}) }
             },
-				  ]"
+          ]"
           :options="[
             {
               icon: 'copy',
