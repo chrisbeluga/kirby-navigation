@@ -10,7 +10,7 @@
     "menu",
     "field"
   ],
-  "version": "5.0.3",
+  "version": "5.0.4",
   "license": "MIT",
   "homepage": "https://github.com/chrisbeluga/kirby-navigation",
   "authors": [
@@ -30,7 +30,7 @@
     {
       "name": "Immo Seebörger",
       "homepage": "https://diesachbearbeiter.de/"
-    }
+    }    
   ],
   "require": {
     "php": ">=8.1.0 <8.5.0",
