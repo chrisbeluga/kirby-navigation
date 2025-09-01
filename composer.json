@@ -10,7 +10,7 @@
     "menu",
     "field"
   ],
-  "version": "5.0.2",
+  "version": "5.0.3",
   "license": "MIT",
   "homepage": "https://github.com/chrisbeluga/kirby-navigation",
   "authors": [
@@ -33,15 +33,15 @@
     }
   ],
   "require": {
-		"php": ">=8.1.0 <8.5.0",
-		"getkirby/cms": "^4.0 || ^5.0",
+    "php": ">=8.1.0 <8.5.0",
+    "getkirby/cms": "^4.0 || ^5.0",
     "getkirby/composer-installer": "^1.2"
   },
   "config": {
     "optimize-autoloader": true,
     "allow-plugins": {
-			"getkirby/composer-installer": true
-		}
+      "getkirby/composer-installer": true
+    }
   },
   "extra": {
     "installer-name": "kirby-navigation"
