@@ -15,7 +15,7 @@ use Kirby\Uuid\Uuids;
 return function () {
   return [
     [
-      'pattern' => 'listings/(:all)/(:all)',
+      'pattern' => 'listings/([a-zA-Z0-9-]+)/(:all)',
       'method' => 'GET',
       'action' => function ($language_code, $path) {
         $content = [];
