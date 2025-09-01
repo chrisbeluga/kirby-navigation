@@ -490,10 +490,6 @@ export default {
 .navigation-field {
   .k-field-depth {
     text-align: right;
-
-    strong {
-      color: #000;
-    }
   }
 
   .k-field-header {
@@ -514,7 +510,6 @@ export default {
 
         .k-menu-title {
           opacity: 1;
-          color: #fff;
           width: 100%;
           display: block;
           margin-bottom: 8px;
@@ -610,7 +605,6 @@ export default {
     left: 26px;
     right: 0;
     bottom: 0;
-    background: #e6e6e6;
     transition: all 0.3s ease-in-out;
   }
 

@@ -22,7 +22,6 @@ export default {
 .k-form-input {
   width: 100%;
   display: flex;
-  background: #fff;
   position: relative;
   margin-bottom: 2px;
 

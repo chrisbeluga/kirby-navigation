@@ -109,7 +109,6 @@ export default {
       width: 100%;
       border-top: 0;
       display: flex;
-      background: #e6e6e6;
       border: 1px solid #ccc;
       flex-direction: column;
       margin-top: 5px;
