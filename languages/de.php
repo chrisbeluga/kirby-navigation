@@ -16,7 +16,7 @@ return [
     'editor.label.popup' => 'Popup',
     'editor.menu.close' => 'Schließen',
     'editor.menu.edit' => 'Bearbeiten',
-    'editor.menu.remove' => 'löschen',
+    'editor.menu.remove' => 'Löschen',
     'editor.menu.duplicate' => 'Duplikat',
     'modal.link.title' => 'Seiten hinzufügen',
     'modal.link.breadcrumb' => 'Zurück',
