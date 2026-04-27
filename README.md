@@ -148,11 +148,13 @@ Here are the available options that you can use in your config.php, and their de
 
 ```php
 return [
-  'chrisbeluga.navigation.edit_title' => TRUE,
-  'chrisbeluga.navigation.edit_popup' => TRUE,
-  'chrisbeluga.navigation.edit_target' => FALSE,
-  'chrisbeluga.navigation.edit_class' => FALSE,
-  'chrisbeluga.navigation.edit_anchor' => FALSE,
+  'chrisbeluga.navigation' => [
+    'edit_title'  => true,
+    'edit_popup'  => true,
+    'edit_target' => false,
+    'edit_class'  => false,
+    'edit_anchor' => false,
+  ],
 ];
 ```
 
