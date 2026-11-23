@@ -2,12 +2,12 @@
   "name": "kirby-navigation",
   "type": "module",
   "scripts": {
-    "dev": "npx -y kirbyup src/index.js --watch",
-    "build": "npx -y kirbyup src/index.js"
+    "dev": "npx -y kirbyup@^4.0.0-beta.1 src/index.js --watch",
+    "build": "npx -y kirbyup@^4.0.0-beta.1 src/index.js"
   },
   "dependencies": {
     "immutability-helper": "^3.1.1",
-    "kirbyup": "^0.14.1",
+    "kirbyup": "^4.0.0-beta.1",
     "vue-runtime-helpers": "^1.1.2"
   }
 }

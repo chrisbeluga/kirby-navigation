@@ -8,54 +8,49 @@
       v-bind:required="required">
 
     <template v-slot:options>
-      <k-dropdown>
-        <k-button v-if="!disabled"
-            icon="add"
-            v-on:click="$refs.menu.toggle()">
-          {{ $t('menu.link.add') }}
-        </k-button>
-        <k-dropdown-content
-            ref="menu">
-          <k-dropdown-item v-on:click="modal_open('default')">
-            <span class="k-menu-title">
-              {{ $t('menu.link.title') }}
-            </span>
-            <p class="k-menu-subtitle">
-              {{ $t('menu.link.text') }}
-            </p>
-          </k-dropdown-item>
-          <k-dropdown-item
-              v-on:click="modal_open('custom')">
-            <span class="k-menu-title">
-              {{ $t('menu.custom.title') }}
-            </span>
-            <p class="k-menu-subtitle">
-              {{ $t('menu.custom.text') }}
-            </p>
-          </k-dropdown-item>
-        </k-dropdown-content>
+      <k-button v-if="!disabled"
+          icon="add"
+          v-on:click="$refs.menu.toggle()">
+        {{ $t('menu.link.add') }}
+      </k-button>
+      <k-dropdown
+          ref="menu">
+        <k-dropdown-item v-on:click="modal_open('default')">
+          <span class="k-menu-title">
+            {{ $t('menu.link.title') }}
+          </span>
+          <p class="k-menu-subtitle">
+            {{ $t('menu.link.text') }}
+          </p>
+        </k-dropdown-item>
+        <k-dropdown-item
+            v-on:click="modal_open('custom')">
+          <span class="k-menu-title">
+            {{ $t('menu.custom.title') }}
+          </span>
+          <p class="k-menu-subtitle">
+            {{ $t('menu.custom.text') }}
+          </p>
+        </k-dropdown-item>
       </k-dropdown>
     </template>
 
     <vue-nestable
         keyProp="uuid"
-        v-model="navigation"
+        v-bind:value="navigation"
+        v-on:input="navigation = $event"
         childrenProp="children"
         v-bind:maxDepth="computed_levels"
         v-if="navigation.length">
-      <template
-          slot-scope="{ item, index }"
-          v-bind:item="item"
-          v-if="item.type!='save'">
+      <template v-slot="{ item, index }">
         <listDefault
+            v-if="item.type!='save'"
             v-bind:item="item"
             v-bind:navigation="navigation"
             v-bind:navigationdisabled="disabled"
             v-on:action_add="action_add"
             v-on:action_remove="action_remove">
-          <template
-              v-slot:handle
-              v-bind:item="item">
+          <template v-slot:handle>
             <VueNestableHandle v-bind:item="item">
               <k-button
                   icon="sort"
@@ -80,35 +75,40 @@
               <k-column width="1/2">
                 <k-text-field
                     v-bind:label="$t('editor.label.text')"
-                    v-model="item[langkey('link_text')]">
+                    v-bind:value="item[langkey('link_text')]"
+                    v-on:input="item[langkey('link_text')] = $event">
                 </k-text-field>
               </k-column>
 
               <k-column width="1/2" v-if="title_is_editable(item)">
                 <k-text-field
                     v-bind:label="$t('editor.label.title')"
-                    v-model="item[langkey('link_title')]">
+                    v-bind:value="item[langkey('link_title')]"
+                    v-on:input="item[langkey('link_title')] = $event">
                 </k-text-field>
               </k-column>
 
               <k-column width="1/2" v-if="anchor_is_editable(item)">
                 <k-text-field
                     v-bind:label="$t('editor.label.anchor')"
-                    v-model="item[langkey('link_anchor')]">
+                    v-bind:value="item[langkey('link_anchor')]"
+                    v-on:input="item[langkey('link_anchor')] = $event">
                 </k-text-field>
               </k-column>
 
               <k-column width="1/2" v-if="class_is_editable(item)">
                 <k-text-field
                     v-bind:label="$t('editor.label.class')"
-                    v-model="item.class">
+                    v-bind:value="item.class"
+                    v-on:input="item.class = $event">
                 </k-text-field>
               </k-column>
 
               <k-column width="1/2" v-if="target_is_editable(item)">
                 <k-text-field
                     v-bind:label="$t('editor.label.target') + ' (_blank, _self, _parent, _top, ...)'"
-                    v-model="item.target">
+                    v-bind:value="item.target"
+                    v-on:input="item.target = $event">
                 </k-text-field>
               </k-column>
 
@@ -125,35 +125,40 @@
               <k-column width="1/2">
                 <k-text-field
                     v-bind:label="$t('editor.label.text')"
-                    v-model="item[langkey('link_text')]">
+                    v-bind:value="item[langkey('link_text')]"
+                    v-on:input="item[langkey('link_text')] = $event">
                 </k-text-field>
               </k-column>
 
               <k-column width="1/2" v-if="title_is_editable(item)">
                 <k-text-field
                     v-bind:label="$t('editor.label.title')"
-                    v-model="item[langkey('link_title')]">
+                    v-bind:value="item[langkey('link_title')]"
+                    v-on:input="item[langkey('link_title')] = $event">
                 </k-text-field>
               </k-column>
 
               <k-column width="1/2">
                 <k-text-field
                     v-bind:label="$t('editor.label.url')"
-                    v-model="item.url">
+                    v-bind:value="item.url"
+                    v-on:input="item.url = $event">
                 </k-text-field>
               </k-column>
 
               <k-column width="1/2" v-if="class_is_editable(item)">
                 <k-text-field
                     v-bind:label="$t('editor.label.class')"
-                    v-model="item.class">
+                    v-bind:value="item.class"
+                    v-on:input="item.class = $event">
                 </k-text-field>
               </k-column>
 
               <k-column width="1/2" v-if="target_is_editable(item)">
                 <k-text-field
                     v-bind:label="$t('editor.label.target') + ' (_blank, _self, _parent, _top, ...)'"
-                    v-model="item.target">
+                    v-bind:value="item.target"
+                    v-on:input="item.target = $event">
                 </k-text-field>
               </k-column>
 
@@ -176,99 +181,6 @@
         icon="page">
       {{ $t('help.empty.text') }}
     </k-empty>
-
-    <modalDefault
-        v-if="modal.status"
-        v-bind:modal="modal.status"
-        v-on:modal_close="modal_close"
-        v-on:modal_submit="modal_submit">
-      <template v-slot:modal_header>
-        <header class="k-pages-dialog-navbar">
-          <template v-if="modal.type === 'default'">
-            <k-button
-                icon="angle-left"
-                v-on:click="action_fetch(computed_breadcrumbs)"
-                v-if="query.breadcrumbs.length > 0">
-              {{ $t('modal.link.breadcrumb') }}
-            </k-button>
-
-            <k-headline>
-              {{ $t('modal.link.title') }}
-            </k-headline>
-          </template>
-
-          <template v-if="modal.type === 'custom'">
-            <k-headline>
-              {{ $t('modal.custom.title') }}
-            </k-headline>
-          </template>
-        </header>
-      </template>
-
-      <template v-slot:modal_body>
-        <template v-if="modal.type === 'default'">
-          <listModal
-              v-for="(item, index) in query.content"
-              v-bind:key="item.uuid"
-              v-bind:item="item">
-            <template v-slot:text>
-              <span class="k-menu-text">{{ item[langkey('page_title')] }}</span>
-            </template>
-
-            <template v-slot:fetch>
-              <k-button
-                  icon="angle-right"
-                  v-if="item.count > 0"
-                  v-on:click="action_fetch(item.id)">
-              </k-button>
-            </template>
-
-            <template v-slot:add>
-              <k-button
-                  icon="add"
-                  v-on:click="action_add(item)">
-              </k-button>
-            </template>
-          </listModal>
-        </template>
-
-        <template v-if="modal.type === 'custom'">
-          <div class="k-fieldset">
-            <k-grid>
-              <k-column>
-                <k-text-field
-                    v-bind:label="$t('editor.label.text')"
-                    v-model="item[langkey('link_text')]">
-                </k-text-field>
-              </k-column>
-
-              <k-column>
-                <k-text-field
-                    v-bind:label="$t('editor.label.url')"
-                    v-model="item.url">
-                </k-text-field>
-              </k-column>
-
-              <k-column v-if="popup_is_editable(item)">
-                <k-toggle-field
-                    @input="item.target=$event ? '_blank' : ''"
-                    :value="(item.target=='_blank' ? true : false)"
-                    v-bind:label="$t('editor.label.popup')">
-                </k-toggle-field>
-              </k-column>
-
-              <k-column v-if="target_is_editable(item)">
-                <k-text-field
-                    v-bind:label="$t('editor.label.target') + ' (_blank, _self, _parent, _top, ...)'"
-                    v-model="item.target">
-                </k-text-field>
-              </k-column>
-
-            </k-grid>
-          </div>
-        </template>
-      </template>
-    </modalDefault>
 
     <template v-slot:help>
       <k-grid>
@@ -295,9 +207,7 @@
 
 <script>
 // Import Components
-import ListModal from './components/Lists/Modal.vue'
 import ListDefault from './components/Lists/Default.vue'
-import ModalDefault from './components/Modal/Default.vue'
 
 export default {
   props: {
@@ -315,16 +225,12 @@ export default {
     endpoints: Object,
   },
   components: {
-    ListModal,
-    ListDefault,
-    ModalDefault
+    ListDefault
   },
+  emits: ['input'],
   data() {
     return {
-      navigation: this.value || [],
-      modal: {type: '', status: false},
-      query: {content: [], breadcrumbs: []},
-      item: {url: '', uuid_uri: '', text: '', target: ''}
+      navigation: this.value || []
     }
   },
   watch: {
@@ -344,33 +250,20 @@ export default {
     }
   },
   methods: {
-    modal_close() {
-      this.modal = {type: '', status: false};
-      this.$emit('close');
-    },
     modal_open(data) {
-      this.modal = {type: data, status: true}
-      panel.dialog.open(this);
-    },
-    modal_submit() {
-      if (this.modal.type === 'custom') {
-        this.item.type='custom'
-        this.action_add(this.item)
-        this.item = {url: '', uuid_uri: '', text: '', target: ''}
-      }
-      this.modal = {type: '', status: false}
-      this.$emit('close')
-    },
-    action_fetch(data) {
-      let language = this.$panel.language.code ?? 'default';
-      this.$api.get(this.endpoints.field + '/listings/' + language + '/' + data)      
-          .then((response) => {
-            this.query = response
-          })
-          .catch((error) => {
-            this.query = {content: [], breadcrumbs: []};
-            console.log(error)
-          })
+      this.$panel.dialog.open({
+        component: 'k-navigation-dialog',
+        props: {
+          type: data,
+          endpoints: this.endpoints,
+          edit_popup: this.edit_popup,
+          edit_target: this.edit_target,
+        },
+        on: {
+          add: this.action_add,
+          submit: () => this.$panel.dialog.close()
+        }
+      });
     },
     action_remove(data) {
       return this.navigation = data.haystack.filter(item => item.uuid !== data.needle).map(item => {
@@ -473,15 +366,9 @@ export default {
       }
       return 10;
     },
-    computed_breadcrumbs() {
-      return this.query.breadcrumbs.length >= 2 ? this.query.breadcrumbs[this.query.breadcrumbs.length - 2].id : 'site'
-    },
     panel_content_has_diff() {
       return this.$panel.content.hasDiff();
     },
-  },
-  mounted() {
-    this.action_fetch('site');
   }
 }
 </script>
