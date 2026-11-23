@@ -1,4 +1,4 @@
-import VueNestable from "vue-nestable/dist/index.esm";
+import VueNestable from "./components/Nestable/index.js";
 import Field from './Field.vue'
 
 panel.plugin('beluga/navigation', {

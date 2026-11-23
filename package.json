@@ -6,8 +6,8 @@
     "build": "npx -y kirbyup src/index.js"
   },
   "dependencies": {
+    "immutability-helper": "^3.1.1",
     "kirbyup": "^0.14.1",
-    "vue-nestable": "^2.6.0",
     "vue-runtime-helpers": "^1.1.2"
   }
 }
