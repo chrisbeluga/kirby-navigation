@@ -456,6 +456,10 @@ export default {
       margin-top: 8px;
       margin-right: 8px;
     }
+
+    .k-info-field + .k-info-field {
+      margin-top: 8px;
+    }
   }
 
   .nestable .nestable-list {
