@@ -1,12 +1,12 @@
 <?php
 
+load([
+    'ChrisBeluga\\Navigation\\NavigationField' => 'lib/NavigationField.php',
+], __DIR__);
+
 Kirby::plugin('chrisbeluga/navigation', [
     'fields' => [
-        'navigation' => [
-            'api' => require_once __DIR__ . '/config/api.php',
-            'props' => require_once __DIR__ . '/config/props.php',
-            'save' => require_once __DIR__ . '/config/save.php',
-        ]
+        'navigation' => ChrisBeluga\Navigation\NavigationField::class,
     ],
     'translations' => [
         'de' => require_once __DIR__ . '/languages/de.php',

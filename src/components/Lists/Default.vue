@@ -58,6 +58,7 @@ export default {
     navigation: Array,
     navigationdisabled: Boolean,
   },
+  emits: ['action_add', 'action_remove'],
   data() {
     return {
       active: false

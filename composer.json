@@ -1,6 +1,6 @@
 {
   "name": "chrisbeluga/kirby-navigation",
-  "description": "Kirby 5 field for hierarchical menus with drag & drop level indentation.",
+  "description": "Kirby 6 field for hierarchical menus with drag & drop level indentation.",
   "type": "kirby-plugin",
   "keywords": [
     "kirby",
@@ -33,8 +33,8 @@
     }
   ],
   "require": {
-    "php": ">=8.1.0 <8.6.0",
-    "getkirby/cms": "^4.0 || ^5.0",
+    "php": ">=8.3.0 <8.6.0",
+    "getkirby/cms": "^6.0",
     "getkirby/composer-installer": "^1.2"
   },
   "config": {
@@ -44,6 +44,9 @@
     }
   },
   "extra": {
-    "installer-name": "kirby-navigation"
+    "installer-name": "kirby-navigation",
+    "kirby": {
+      "compatible": "^6.0"
+    }
   }
 }
