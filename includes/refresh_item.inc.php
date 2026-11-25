@@ -208,7 +208,7 @@ $refresh_items = function($items, $field_name, $field_model) use ($refresh_item)
         $model=$field_model;
         $defaultContentTranslation=$model->translation(kirby()->defaultLanguage()->code());
         $defaultContent=$defaultContentTranslation->content();
-        $fieldContent=$defaultContent[$field_name];
+        $fieldContent=$defaultContent[$field_name] ?? null;
         $items=Yaml::decode($fieldContent);
 
         // Furthermore, the primary data may be ['multilang' => TRUE],

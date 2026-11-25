@@ -209,6 +209,8 @@
 // Import Components
 import ListDefault from './components/Lists/Default.vue'
 
+const copy = (items) => JSON.parse(JSON.stringify(items || []))
+
 export default {
   props: {
     help: String,
@@ -230,13 +232,24 @@ export default {
   emits: ['input'],
   data() {
     return {
-      navigation: this.value || []
+      navigation: copy(this.value)
     }
   },
   watch: {
     navigation: {
       handler() {
-        this.$emit('input', this.navigation)
+        if (JSON.stringify(this.value || []) !== JSON.stringify(this.navigation)) {
+          this.$emit('input', copy(this.navigation))
+        }
+      },
+      deep: true
+    },
+    value: {
+      handler() {
+        // e.g. language switch
+        if (JSON.stringify(this.value || []) !== JSON.stringify(this.navigation)) {
+          this.navigation = copy(this.value);
+        }
       },
       deep: true
     },
@@ -245,7 +258,7 @@ export default {
         // If previously detected changes disappeared,
         // probably because of the "Discard" button in Panel,
         // then reset the navigation items to the initial values.
-        this.navigation = this.value;
+        this.navigation = copy(this.value);
       }
     }
   },
