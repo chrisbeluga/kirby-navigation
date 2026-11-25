@@ -15,6 +15,7 @@ Note that this Composer package name (belugadigital/kirby-navigation) differs fr
 
 | Kirby version | Compatible plugin version |
 |:--------------|:--------------------------|
+| ^6.0          | ^6.0                      |
 | ^5.0          | ^5.0                      |
 | ^4.8          | ^4.2                      |
 | ^4.0          | ^4.0                      |
@@ -72,7 +73,7 @@ Or when using Kirby Query language
 
 If you want full control over your menu and want to customize the markup, you can copy the navigation.php and navigation_item.php files from the plugin's snippets directory to your /site/snippets directory, and customize them there.
 This is the recommended way of markup customization.
-For example, to add class="navigation-item navigation-item-X" to each link item, where X is the depth level of the given link, you can add the following line to your copy of navigation_item.php: 
+For example, to add class="navigation-item navigation-item-X" to each link item, where X is the depth level of the given link, you can add the following line to your copy of navigation_item.php:
 
 ```php
 $attributes['class']='navigation-item navigation-item-' . $depth;
@@ -167,6 +168,12 @@ If you use the recommended way to output the navigation markup from your templat
 ## What's new in version 5.0?
 
 Works with Kirby 5.0
+
+## What's new in version 6.0?
+
+- Works with Kirby 6.0 (Kirby 5 is no longer supported, use the 5.x branch / ^5.0 for Kirby 5)
+- The field is now a Kirby 6 field class and the Panel components were updated for Vue 3
+- vue-nestable was ported to Vue 3 and is bundled with the plugin
 
 ## Contributing
 
